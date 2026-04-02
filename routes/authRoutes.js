@@ -7,7 +7,8 @@ authR.get("/register", (req, res) => {
 })
 
 authR.post("/register", (req, res) => {
-
+    //To complete later
+    console.log(req.body)
 })
 
 authR.get("/login", (req, res) => {

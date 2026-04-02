@@ -4,7 +4,7 @@ import { dirname, join } from "path"
 import { fileURLToPath } from "url"
 import { config } from "dotenv"
 
-config({quiet:true})
+config({ quiet: true })
 
 import session from "express-session"
 import connectpg from "connect-pg-simple"
@@ -22,12 +22,14 @@ app.set("views", join(__dirname, "views"))
 app.set("view engine", "ejs")
 
 app.use(session({
-    store: new PGStore({ pool : pool }),
+    store: new PGStore({ pool: pool }),
     secret: process.env.SSSKEY,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }))
+
+app.use(express.urlencoded({ extended: true }))
 
 app.use("/auth", authR)
 
