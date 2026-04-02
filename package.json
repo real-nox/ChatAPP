@@ -1,0 +1,21 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "core.js",
+  "type": "module",
+  "scripts": {
+    "test": "nodemon core.js"
+  },
+  "author": "Rayane",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.4.0",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "pg": "^8.20.0"
+  }
+}

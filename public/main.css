@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Topbar {
+    height: 6vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgb(105,105,105);
+}
+
+.Topbar a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.5s ease;
+}
+
+.Topbar a:hover {
+    color: rgb(202, 230, 255);
+}
+
+.center_container {
+    height: 94vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    border-radius: 10px;
+    border: 3px solid rgb(39, 39, 39);
+
+    width: 400px;
+    max-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.container .topcontainer {
+    height:30px;
+    width: 100%;
+    background-color: rgb(39, 39, 39);
+
+    border-radius: 5px 5px 0px 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+}
+
+.container .formcontainer {
+    height: 80%;
+    width: 100%;
+}
+
+.container .formElements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 12.5%;
+
+    padding-bottom: 12.5%;
+}
+
+.container .formElements input {
+    width: 80%;
+    height: 25px;
+    margin-bottom: 25px;
+}
+
+.container .formElements button {
+    width: 80%;
+    background-color: rgb(72, 72, 217);
+    color: white;
+    border-radius: 10px;
+    border-color: rgb(72, 72, 217);
+    height: 30px;
+    cursor: pointer;
+}
+
+.container .formcontainer label {
+    font-size: small;
+}

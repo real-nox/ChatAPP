@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="Topbar">
+        <a href="/auth/login">Login</a>
+    </nav>
+
+    <div class="center_container">
+        <div class="container">
+            <div class="topcontainer">
+                <h3>REGISTER</h3>
+            </div>
+            <div class="formcontainer">
+                <form method="post" action="/auth/register">
+                    <div class="formElements">
+                        <input type="text" name="username" placeholder="Your Username" maxlength="20" >
+                        <input type="email" name="email" placeholder="Your Email">
+                        <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
+                        <label for="passwordCheck" id="CheckingPassword"></label>
+                        <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20" placeholder="Repeat your password">
+                        <button type="submit">CREATE ACCOUNT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const passwordCheck = document.getElementById("passwordCheck")
+        const password = document.getElementById("pwd")
+        
+        passwordCheck.addEventListener("input", (ev) => {
+            if(ev.target.value != password.value)
+                document.getElementById("CheckingPassword").innerText = "NOT MATCHED PASSWORD"
+            else
+                document.getElementById("CheckingPassword").innerText = ""
+
+        })
+    </script>
+</body>
+
+</html>

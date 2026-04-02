@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../main.css">
+</head>
+<body>
+    <nav class="Topbar">
+        <a href="/auth/register">Register</a>
+    </nav>
+
+    <div class="center_container">
+        <div class="container">
+            <div class="topcontainer">
+                <h3>LOGIN</h3>
+            </div>
+            <div class="formcontainer">
+                <form method="post" action="/auth/login">
+                    <div class="formElements">
+                        <input type="text"name="user_email" placeholder="Email/Username">
+                        <input type="password" name="pwd" placeholder="Password">
+                        <button type="submit">LOGIN</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
