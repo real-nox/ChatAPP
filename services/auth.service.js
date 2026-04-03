@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import * as auth_repository from "../repositories/auth.repository.js"
+import * as auth_repository from "../repositories/user.repository.js"
 
 export const register_s = async (newUserInfo) => {
     let { username, email, pwd } = newUserInfo

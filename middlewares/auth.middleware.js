@@ -11,6 +11,6 @@ export const auth_m = async (req, res, next) => {
         req.user = success ? user : null
         next()
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }

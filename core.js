@@ -1,4 +1,7 @@
 import express from "express"
+import session from "express-session"
+import connectpg from "connect-pg-simple"
+
 import { LoadDB, pool } from "./db/index.db.js"
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
@@ -6,10 +9,9 @@ import { config } from "dotenv"
 
 config({ quiet: true })
 
-import session from "express-session"
-import connectpg from "connect-pg-simple"
-
 import authR from "./routes/auth.route.js"
+import friendsR from "./routes/friends.route.js"
+
 import { auth_m } from "./middlewares/auth.middleware.js"
 
 const app = express()
@@ -23,6 +25,7 @@ app.set("views", join(__dirname, "views"))
 app.set("view engine", "ejs")
 
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.use(session({
     store: new PGStore({ pool: pool }),
@@ -32,7 +35,9 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }))
 
+//Routes
 app.use("/auth", authR)
+app.use("/friends", friendsR)
 
 app.get("/", auth_m, async (req, res) => {
     res.render("home", { user: req.user })

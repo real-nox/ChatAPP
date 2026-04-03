@@ -1,22 +1,64 @@
 <div class="leftList">
     <div class="insideList">
         <div class="topPart">
-            <h3>Welcome <%= user.username %></h3>
+            <h3>Welcome <%= user.username %>
+            </h3>
         </div>
 
         <div class="addFriend">
-            <form action="/friend-request" method="post">
-                <input type="text" name="friendUsername" placeholder="Entrer username to add">
+            <form id="addFriendForm" method="post" action="/friends/requests/send">
+                <p id="labelFriendInp"></p>
+                <input id="usernameInp" type="text" name="friendUsername" placeholder="Entrer username to add">
                 <button type="submit">Send Invitation</button>
+                <button id="requestsBTN" type="button">Requests</button>
             </form>
         </div>
 
         <div class="listFriendsDMs">
-            <p>r</p>
+            <p></p>
         </div>
 
         <div class="settings">
-            
+
         </div>
     </div>
+
+    <script>
+        document.getElementById("addFriendForm").addEventListener("submit", async (ev) => {
+            ev.preventDefault()
+
+            const input_Username = document.getElementById("usernameInp")
+            const label = document.getElementById("labelFriendInp")
+
+            if (!input_Username.value || input_Username.value?.length == 0) {
+                label.textContent = "Fill in the form"
+                return
+            }
+
+            try {
+                const result = await fetch("/friends/requests/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ friendUsername: input_Username.value })
+                })
+
+                const data = await result.json()
+
+                console.log(data)
+                if (!data.success) {
+                    label.style.color = "red"
+                    label.textContent = data.error
+                } else {
+                    label.style.color = "green"
+                    label.textContent = `Friend request sent to ${input_Username.value}`
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
+
+        document.getElementById("requestsBTN").addEventListener("click", () => {
+            console.log("hereee")
+        })
+    </script>
 </div>

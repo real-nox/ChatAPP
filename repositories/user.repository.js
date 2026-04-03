@@ -59,3 +59,16 @@ export const getUserById = async (userId) => {
         console.log(error)
     }
 }
+
+export const getUserViaUsername = async (username) => {
+    try {
+        const result = await pool.query("select * from users where username= $1", [username])
+
+        console.log(username)
+        if (result?.rowCount > 0)
+            return result.rows[0]
+        return false
+    } catch (error) {
+        console.log(error)
+    }
+}
