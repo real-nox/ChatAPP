@@ -34,11 +34,20 @@ export const login_s = async (userInfo) => {
 
     if (!FoundUser)
         return { success: false, error: "Username/Email does not exist! Create a new account." }
-    
+
     const IsPassWord = bcrypt.compareSync(pwd, FoundUser.password)
 
     if (!IsPassWord)
         return { success: false, error: "Username/Email or Password is incorrect." }
 
-    return { success: true, error: "", user: FoundUser}
+    return { success: true, error: "", user: FoundUser }
+}
+
+export const fetchUser = async (userId) => {
+    const User = await auth_repository.getUserById(userId)
+
+    if (!User)
+        return { success: false, error: "User is not found!" }
+
+    return { success: true, error: "", user: User }
 }

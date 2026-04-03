@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatty</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="userPage.css">
 </head>
 <body>
-    <nav class="Topbar">
-        <a href="/auth/register">Register</a>
-        <a href="/auth/login">Login</a>
-    </nav>
+    <% if (!user) { %>
+        <nav class="Topbar">
+            <a href="/auth/register">Register</a>
+            <a href="/auth/login">Login</a>
+        </nav>
+    <% } else { %>
+        <div class="window">
+            <%- include("includes/leftList", {user}) %>
+        </div>
+    <% } %>
 </body>
 </html>

@@ -30,7 +30,7 @@ export const login_c = async (req, res, next) => {
         return res.json("Complete the form")
 
     try {
-        const { success, error, user = null  } = await auth_service.login_s({ user_email, pwd })
+        const { success, error, user = null } = await auth_service.login_s({ user_email, pwd })
 
         if (!success) return res.json(error)
 

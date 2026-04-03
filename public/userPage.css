@@ -1,0 +1,36 @@
+.window {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+.window .leftList {
+    background-color: rgb(157, 157, 157);
+    height: 100%;
+    width: 15%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 15px 0px 15px ;
+}
+
+.leftList .insideList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.leftList .addFriend form input {
+    width: 100%;
+}
+
+.leftList .listFriendsDMs {
+    height: 75vh;
+    background-color: red;
+}
+
+.leftList .settings {
+    height: 5vh;
+    background-color: gray;
+}

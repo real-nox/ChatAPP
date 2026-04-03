@@ -10,6 +10,7 @@ import session from "express-session"
 import connectpg from "connect-pg-simple"
 
 import authR from "./routes/auth.route.js"
+import { auth_m } from "./middlewares/auth.middleware.js"
 
 const app = express()
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -33,8 +34,8 @@ app.use(session({
 
 app.use("/auth", authR)
 
-app.get("/", async (req, res) => {
-    res.render("home")
+app.get("/", auth_m, async (req, res) => {
+    res.render("home", { user: req.user })
 })
 
 app.listen(5500, async () => {
