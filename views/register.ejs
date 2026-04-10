@@ -21,12 +21,19 @@
             <div class="formcontainer">
                 <form method="post" action="/auth/register">
                     <div class="formElements">
-                        <input type="text" name="username" placeholder="Your Username" maxlength="20" >
-                        <input type="email" name="email" placeholder="Your Email">
-                        <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
-                        <label for="passwordCheck" id="CheckingPassword"></label>
-                        <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20" placeholder="Repeat your password">
-                        <button type="submit">CREATE ACCOUNT</button>
+                        <% if (locals.error !=undefined) {%>
+                            <p id="error_p">
+                                <%= error%>
+                            </p>
+                            <% } %>
+                                <input type="text" name="username" placeholder="Your Username" maxlength="20">
+                                <input type="email" name="email" placeholder="Your Email">
+                                <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
+                                <label for="passwordCheck" id="CheckingPassword"></label>
+                                <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
+                                    placeholder="Repeat your password">
+                                <button id="createBTN" type="submit">CREATE AN ACCOUNT</button>
+                                <a id="loginbtn" href="/auth/login">Login</a>
                     </div>
                 </form>
             </div>
@@ -36,9 +43,9 @@
     <script>
         const passwordCheck = document.getElementById("passwordCheck")
         const password = document.getElementById("pwd")
-        
+
         passwordCheck.addEventListener("input", (ev) => {
-            if(ev.target.value != password.value)
+            if (ev.target.value != password.value)
                 document.getElementById("CheckingPassword").innerText = "NOT MATCHED PASSWORD"
             else
                 document.getElementById("CheckingPassword").innerText = ""

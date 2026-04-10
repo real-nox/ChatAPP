@@ -65,9 +65,9 @@
     flex-direction: column;
     align-items: center;
 
-    padding-top: 12.5%;
+    padding-top: 5.5%;
 
-    padding-bottom: 12.5%;
+    padding-bottom: 5.5%;
 }
 
 .container .formElements input {
@@ -84,8 +84,57 @@
     border-color: rgb(72, 72, 217);
     height: 30px;
     cursor: pointer;
+
+    transition: all 0.5s ease-in-out;
+}
+
+.container .formElements button:hover {
+    background-color: rgb(53, 53, 154);
 }
 
 .container .formcontainer label {
     font-size: small;
+}
+
+.container .formElements #error_p {
+    width: 82%;
+    padding-bottom: 15px;
+    text-align: center;
+    color: rgb(255, 43, 43);
+    font-size: medium;
+    font-weight: bold;
+}
+
+.container .formElements #loginbtn {
+    margin-top: 15px;
+    padding: 5px 25px;
+    text-decoration: none;
+    color: rgb(197, 197, 197);
+    border: 1px solid black;
+    border-radius: 12px;
+    text-align: center;
+    background-color: rgb(68, 68, 123);
+    transition: background-color 1s ease, color 0.5s ease;
+}
+
+.container .formElements #loginbtn:hover {
+    background-color: rgb(18, 0, 118);
+    color: rgb(255, 255, 255);
+}
+
+.container .formElements #registerBTN {
+    margin-top: 15px;
+    padding: 5px 25px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(212, 34, 76);
+    border-radius: 12px;
+    text-align: center;
+    background-color: rgb(255, 77, 77);
+    transition: background-color 1s ease, color 0.5s ease;
+}
+
+.container .formElements #registerBTN:hover {
+    background-color: rgb(255, 157, 157);
+    color: rgb(255, 255, 255);
 }
