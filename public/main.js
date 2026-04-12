@@ -127,3 +127,34 @@ document.addEventListener("click", async (ev) => {
         }
     }
 })
+
+window.addEventListener("load", async (ev) => {
+    const {success, error, friends} = await getListFriends()
+    const container = document.getElementById("listFriendsDMs")
+
+    if (!success)
+        return container.innerHTML = `<p>${error}</p>`
+
+    let div = ""
+    for (const friend of friends) {
+        div += `<div>
+                    <button>
+                        <p>${friend.username}</p>
+                    </button>
+                </div>`
+    }
+
+    return container.innerHTML = div
+})
+
+async function getListFriends() {
+    try {
+        const result = await fetch("/friends/list", { method: "GET" })
+
+        const data = await result.json()
+
+        return data
+    } catch (err) {
+        console.error(err);
+    }
+}

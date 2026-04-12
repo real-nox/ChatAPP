@@ -77,3 +77,19 @@ export const declineFriendRequest = async (request_id, user_id) => {
         console.log(err)
     }
 }
+
+export const listFriends = async (user_id) => {
+    try {
+        if (!user_id)
+            return { success: false, error: "" }
+
+        const result = await friends_repository.listF(user_id)
+
+        if (!result || result.length === 0)
+            return { success: false, error: "No friends found" }
+        return { success: true, friends: result }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
