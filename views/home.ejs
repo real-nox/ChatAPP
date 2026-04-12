@@ -6,6 +6,7 @@
     <title>Chatty</title>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="userPage.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
     <% if (!user) { %>
@@ -15,8 +16,11 @@
         </nav>
     <% } else { %>
         <div class="window">
-            <%- include("includes/leftList", {user}) %>
+            <%- include("includes/leftList", {user})%>
+            <%- include("includes/friendsList")%>
         </div>
     <% } %>
 </body>
+
+<script src="main.js"></script>
 </html>

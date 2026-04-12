@@ -17,7 +17,6 @@ export const register_s = async (newUserInfo) => {
     const salt = bcrypt.genSaltSync()
     pwd = bcrypt.hashSync(pwd, salt)
 
-    console.log(pwd)
     const result = await auth_repository.addUser({ username, email, pwd })
 
     if (result)

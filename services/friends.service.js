@@ -11,6 +11,9 @@ export const sendFriendRequest = async (username, sender) => {
         if (!sender || !sender.id)
             return { success: false, error: "Could not find current user" }
 
+        if (reciever.id == sender.id)
+            return { success: false, error: "Cannot add yourself"}
+
         const alreadyRequested = await friends_repository.getFriendRequest(reciever.id, sender.id)
         
         if (alreadyRequested)
@@ -23,5 +26,33 @@ export const sendFriendRequest = async (username, sender) => {
         return { success: true, error: "" }
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const getFriendsRequest = async (sender) => {
+    try {
+        if (!sender || !sender.id)
+            return { success: false, error: "Could not find current user" }
+
+        const result = await friends_repository.getFriendsRequest(sender.id)
+
+        return result
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const acceptFriendRequest = async (request_id) => {
+    try {
+        if (!request_id)
+            return { success: false, error: "Could not find request" }
+
+        const result = await friends_repository.acceptReqF(request_id)
+
+        if (result)
+            return { success: true, error: ""}
+        return { success: false, error: "Could not accept request"}
+    } catch (err) {
+        console.log(err)
     }
 }

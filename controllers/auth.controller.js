@@ -34,7 +34,6 @@ export const login_c = async (req, res, next) => {
         if (!success) return res.render("login", { error })
 
         req.session.userId = user.id
-        console.log(user)
         return res.redirect("/")
     } catch (err) {
         next(err)

@@ -7,7 +7,7 @@
 .window .leftList {
     background-color: rgb(157, 157, 157);
     height: 100%;
-    width: 15%;
+    width: 16%;
 
     display: flex;
     flex-direction: column;
@@ -25,6 +25,10 @@
     width: 100%;
 }
 
+.leftList .addFriend form .labelFriendInp {
+    padding-bottom: 15px;
+} 
+
 .leftList .listFriendsDMs {
     height: 75vh;
     background-color: red;
@@ -33,4 +37,42 @@
 .leftList .settings {
     height: 5vh;
     background-color: gray;
+}
+
+.window .friendsReqList {
+    background-color: rgb(157, 157, 157);
+    height: 100%;
+    width: 16%;
+
+    display: none;
+    opacity: 1;
+    transition: all 1s ease;
+}
+
+.friendsReqList .listFriends {
+    padding: 50px 35px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.friendsReqList .listFriends .friendtemplate {
+    background-color: rgb(204, 204, 204);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: white;
+    height: max-content;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+}
+
+.material-symbols-outlined.close {
+    color: red;
+}
+
+.material-symbols-outlined.check {
+    color: rgb(0, 212, 0);
 }
