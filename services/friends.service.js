@@ -42,16 +42,37 @@ export const getFriendsRequest = async (sender) => {
     }
 }
 
-export const acceptFriendRequest = async (request_id) => {
+export const acceptFriendRequest = async (request_id, user_id) => {
     try {
         if (!request_id)
             return { success: false, error: "Could not find request" }
 
-        const result = await friends_repository.acceptReqF(request_id)
+        if (!user_id)
+            return { success: false, error: "Unfound user" }
+
+        const result = await friends_repository.acceptReqF(request_id, user_id)
 
         if (result)
             return { success: true, error: ""}
         return { success: false, error: "Could not accept request"}
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const declineFriendRequest = async (request_id, user_id) => {
+    try {
+        if (!request_id)
+            return { success: false, error: "Could not find request" }
+
+        if (!user_id)
+            return { success: false, error: "Unfound user" }
+
+        const result = await friends_repository.declinetReqF(request_id, user_id)
+
+        if (result)
+            return { success: true, error: ""}
+        return { success: false, error: "Could not decline request"}
     } catch (err) {
         console.log(err)
     }

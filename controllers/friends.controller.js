@@ -31,12 +31,29 @@ export const get_request_c = async (req, res, next) => {
 
 export const accept_request_c = async (req, res, next) => {
     const request_id = req?.params?.id
+    const user_id = req?.user?.id
 
     try {
         if (!request_id)
             return res.json({ success: false, error: "Request id is not provided"})
 
-        const resultat = await friends_service.acceptFriendRequest(request_id)
+        const resultat = await friends_service.acceptFriendRequest(request_id, user_id)
+
+        return res.json(resultat)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const decline_request_c = async (req, res, next) => {
+    const request_id = req?.params?.id
+    const user_id = req?.user?.id
+
+    try {
+        if (!request_id)
+            return res.json({ success: false, error: "Request id is not provided"})
+
+        const resultat = await friends_service.declineFriendRequest(request_id, user_id)
 
         return res.json(resultat)
     } catch (err) {

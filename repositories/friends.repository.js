@@ -48,9 +48,21 @@ export const getFriendsRequest = async (senderId) => {
     }
 }
 
-export const acceptReqF = async (request_id) => {
+export const acceptReqF = async (request_id, user_id) => {
     try {
-        const result = await pool.query("update friends_requests set status = 'accepted' where id = $1", [request_id])
+        const result = await pool.query("update friends_requests set status = 'accepted' where id = $1 and reciever_id = $2", [request_id, user_id])
+
+        if (result?.rowCount > 0)
+            return true
+        return false
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const declinetReqF = async (request_id, user_id) => {
+    try {
+        const result = await pool.query("update friends_requests set status = 'declined' where id = $1 and reciever_id = $2", [request_id, user_id])
 
         if (result?.rowCount > 0)
             return true

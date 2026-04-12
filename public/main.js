@@ -108,3 +108,22 @@ document.addEventListener("click", async (ev) => {
         }
     }
 })
+
+document.addEventListener("click", async (ev) => {
+    if (ev.target.classList.contains("cancelBTN")) {
+        try {
+            const req_id = ev.target.dataset.id
+            console.log(req_id)
+            const result = await fetch(`/friends/requests/${req_id}/decline`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" }
+            })
+
+            const data = await result.json()
+
+            console.log(data)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+})
