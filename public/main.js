@@ -1,56 +1,76 @@
-const current_user_id = document.getElementById("settings").dataset.id
+window.addEventListener("load", async (ev) => {
+    const { success, error, friends } = await getListFriends()
+    const container = document.getElementById("listFriendsDMs")
 
-document.getElementById("addFriendForm").addEventListener("submit", async (ev) => {
-    ev.preventDefault()
+    if (!success)
+        return container.innerHTML = `<p>${error}</p>`
 
-    const input_Username = document.getElementById("usernameInp")
-    const label = document.getElementById("labelFriendInp")
-
-    if (!input_Username.value || input_Username.value?.length == 0) {
-        label.textContent = "Fill in the form"
-        return
+    let div = ""
+    for (const friend of friends) {
+        div += `<div class="friendItem" id="friendItem" data-id="${friend.id}">
+                    <button class="friendChannelBTN" data-id="${friend.id}">${friend.username}</button>
+                </div>`
     }
 
-    try {
-        const result = await fetch("/friends/requests/send", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ friendUsername: input_Username.value })
-        })
+    return container.innerHTML = div
+})
 
-        const data = await result.json()
+const current_user_id = document.getElementById("settings").dataset.id
 
-        if (!data.success) {
-            label.style.color = "red"
-            label.textContent = data.error
-        } else {
-            label.style.color = "green"
-            label.textContent = `Friend request sent to ${input_Username.value}`
+document.addEventListener("submit", async (ev) => {
+
+    if (ev.target.classList.contains("addFriendForm")) {
+        ev.preventDefault()
+
+        const input_Username = document.getElementById("usernameInp")
+        const label = document.getElementById("labelFriendInp")
+
+        if (!input_Username.value || input_Username.value?.length == 0) {
+            label.textContent = "Fill in the form"
+            return
         }
-    } catch (error) {
-        console.log(error)
+
+        try {
+            const result = await fetch("/friends/requests/send", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ friendUsername: input_Username.value })
+            })
+
+            const data = await result.json()
+
+            if (!data.success) {
+                label.style.color = "red"
+                label.textContent = data.error
+            } else {
+                label.style.color = "green"
+                label.textContent = `Friend request sent to ${input_Username.value}`
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 })
 
-document.getElementById("requestsBTN").addEventListener("click", async () => {
-    const list = document.getElementById("friendsReqList")
+document.addEventListener("click", async (ev) => {
+    if (ev.target.classList.contains("requestsBTN")) {
+        const list = document.getElementById("friendsReqList")
 
-    if (list.style.display == "none" || list.style.display == "") {
-        list.style.display = "flex";
+        if (list.style.display == "none" || list.style.display == "") {
+            list.style.display = "flex";
 
-        const listFriendsReq = await getPendingFReq()
+            const listFriendsReq = await getPendingFReq()
 
-        if (listFriendsReq == null)
-            return document.getElementById("listFriends").innerHTML = "No friend request"
+            if (listFriendsReq == null)
+                return document.getElementById("listFriends").innerHTML = "No friend request"
 
-        document.getElementById("listFriends").innerHTML = ""
+            document.getElementById("listFriends").innerHTML = ""
 
-        let div = ""
+            let div = ""
 
-        for (const friend of (listFriendsReq)) {
-            console.log(friend)
+            for (const friend of (listFriendsReq)) {
 
-            div += `<div class="friendtemplate">
+                div += `<div class="friendtemplate">
                     <div class="avatarUser">
                         <img src="" alt="avatar">
                     </div>
@@ -58,22 +78,84 @@ document.getElementById("requestsBTN").addEventListener("click", async () => {
                         <p>${friend.username}</p>
                     </div>`
 
-            console.log(current_user_id)
-            if (friend.sender_id != current_user_id) {
-                div +=
-                    `<div class="actions">
+                if (friend.sender_id != current_user_id) {
+                    div +=
+                        `<div class="actions">
                         <span class="material-symbols-outlined check checkBTN" data-id="${friend.request_id}">check</span>
                         <span class="material-symbols-outlined close cancelBTN" data-id="${friend.request_id}">close</span>
                     </div>`
+                }
+                div += "</div>"
             }
-            div += "</div>"
-        }
-        document.getElementById("listFriends").innerHTML = div
+            document.getElementById("listFriends").innerHTML = div
 
-        return
-    } else
-        return list.style.display = ""
+            return
+        } else
+            return list.style.display = ""
+    }
+
+    if (ev.target.classList.contains("checkBTN")) {
+        try {
+            const req_id = ev.target.dataset.id
+            await acceptPendingFReq(req_id)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    if (ev.target.classList.contains("cancelBTN")) {
+        try {
+            const req_id = ev.target.dataset.id
+            await declinePendingFReq(req_id)
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    if (ev.target.classList.contains("friendChannelBTN")) {
+        try {
+            const room = document.getElementById("friendChannel")
+
+            const top = document.getElementById("top")
+            const center = document.getElementById("chat")
+            const msgsend = document.getElementById("msgsend")
+
+            const friend_id = ev.target.dataset.id
+
+            console.log(friend_id)
+            const { success, error, friend } = await getFriendInfo(friend_id)
+
+            if (!success)
+                return console.log(error);
+
+            top.innerHTML = `<p>${friend.id} - ${friend.username}</p>`
+            msgsend.innerHTML = `<form id="messagesend">
+                                    <input type="text" name="" id="">
+                                    <button type="submit">Send</button>
+                                </form>`
+
+            const roomName = [current_user_id, friend_id].sort().join("_")
+            socket.emit("joinroom", roomName)
+            console.log(socket)
+            console.log("Open chat with ", friend_id, "in room", roomName, socket.id)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 })
+
+async function getListFriends() {
+    try {
+        const result = await fetch("/friends/list", { method: "GET" })
+
+        const data = await result.json()
+
+        return data
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 async function getPendingFReq() {
     try {
@@ -90,66 +172,31 @@ async function getPendingFReq() {
     }
 }
 
-document.addEventListener("click", async (ev) => {
-    if (ev.target.classList.contains("checkBTN")) {
-        try {
-            const req_id = ev.target.dataset.id
-            console.log(req_id)
-            const result = await fetch(`/friends/requests/${req_id}/accept`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" }
-            })
-
-            const data = await result.json()
-
-            console.log(data)
-        } catch (err) {
-            console.log(err);
-        }
-    }
-})
-
-document.addEventListener("click", async (ev) => {
-    if (ev.target.classList.contains("cancelBTN")) {
-        try {
-            const req_id = ev.target.dataset.id
-            console.log(req_id)
-            const result = await fetch(`/friends/requests/${req_id}/decline`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" }
-            })
-
-            const data = await result.json()
-
-            console.log(data)
-        } catch (err) {
-            console.log(err);
-        }
-    }
-})
-
-window.addEventListener("load", async (ev) => {
-    const {success, error, friends} = await getListFriends()
-    const container = document.getElementById("listFriendsDMs")
-
-    if (!success)
-        return container.innerHTML = `<p>${error}</p>`
-
-    let div = ""
-    for (const friend of friends) {
-        div += `<div>
-                    <button>
-                        <p>${friend.username}</p>
-                    </button>
-                </div>`
-    }
-
-    return container.innerHTML = div
-})
-
-async function getListFriends() {
+async function acceptPendingFReq(req_id) {
     try {
-        const result = await fetch("/friends/list", { method: "GET" })
+        await fetch(`/friends/requests/${req_id}/accept`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function declinePendingFReq(req_id) {
+    try {
+        await fetch(`/friends/requests/${req_id}/decline`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function getFriendInfo(friend_id) {
+    try {
+        const result = await fetch(`/friends/${friend_id}`, { method: "GET" })
 
         const data = await result.json()
 

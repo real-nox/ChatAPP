@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0px 15px 0px 15px ;
+    padding: 0px 15px 0px 15px;
 }
 
 .leftList .insideList {
@@ -27,7 +27,7 @@
 
 .leftList .addFriend form .labelFriendInp {
     padding-bottom: 15px;
-} 
+}
 
 .leftList .listFriendsDMs {
     height: 75vh;
@@ -75,4 +75,41 @@
 
 .material-symbols-outlined.check {
     color: rgb(0, 212, 0);
+}
+
+
+.friendItem button {
+    width: 100%;
+    height: 4vh;
+    background-color: rgb(61, 0, 0);
+    color: white;
+    cursor: pointer;
+}
+
+.friendChannel {
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+
+    width: 82.5%;
+}
+
+.friendChannel .top {
+    height: 8%;
+    background-color: rgb(133, 133, 133);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.friendChannel .chat {
+    height: 84%;
+    background-color: rgb(255, 255, 255);
+}
+
+.friendChannel .msgsend {
+    height: 8%;
+    background-color: rgb(184, 184, 184);
 }

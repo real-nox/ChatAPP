@@ -1,21 +1,27 @@
 import express from "express"
 import session from "express-session"
 import connectpg from "connect-pg-simple"
-
-import { LoadDB, pool } from "./db/index.db.js"
+import { createServer } from "http"
+import { Server } from "socket.io"
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
 import { config } from "dotenv"
 
 config({ quiet: true })
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+import { LoadDB, pool } from "./db/index.db.js"
 
 import authR from "./routes/auth.route.js"
 import friendsR from "./routes/friends.route.js"
 
 import { auth_m } from "./middlewares/auth.middleware.js"
+import { initSocket } from "./chat/socket.js"
 
 const app = express()
-const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const httpServer = createServer(app)
+const io = new Server(httpServer)
 
 const PGStore = connectpg(session)
 
@@ -43,7 +49,8 @@ app.get("/", auth_m, async (req, res) => {
     res.render("home", { user: req.user })
 })
 
-app.listen(5500, async () => {
+httpServer.listen(5500, async () => {
     console.log("[SERVER] Running on http://localhost:5500")
     await LoadDB()
+    initSocket(io)
 })

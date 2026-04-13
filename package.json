@@ -2,10 +2,10 @@
   "name": "chatapp",
   "version": "1.0.0",
   "description": "",
-  "main": "core.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "nodemon core.js"
+    "test": "nodemon app.js"
   },
   "author": "Rayane",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "ejs": "^5.0.1",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "socket.io": "^4.8.3"
   }
 }
