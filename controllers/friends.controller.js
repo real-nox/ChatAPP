@@ -75,9 +75,10 @@ export const list_friends_c = async (req, res, next) => {
 
 export const friend_info_c = async (req, res, next) => {
     const friend_id = req?.params?.friend
+    const user_id = req?.user?.id
 
     try {
-        const result = await friends_service.getFriendInfo(friend_id)
+        const result = await friends_service.getFriendInfo(friend_id, user_id)
 
         return res.json(result)
     } catch (err) {

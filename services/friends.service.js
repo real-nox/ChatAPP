@@ -94,10 +94,18 @@ export const listFriends = async (user_id) => {
     }
 }
 
-export const getFriendInfo = async (friend_id) => {
+export const getFriendInfo = async (friend_id, user_id) => {
     try {
+        if (!user_id)
+            return { success: false, error: "Unfound user_id" }
+
         if (!friend_id)
             return { success: false, error: "Unfound friend_id" }
+
+        const is_friend_with_user = await friends_repository.isFriend(friend_id, user_id)
+
+        if (!is_friend_with_user)
+            return { success: false, error: "Not friends" }
 
         const result = await user_repository.getUserById(friend_id)
 

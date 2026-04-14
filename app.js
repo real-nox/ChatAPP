@@ -41,6 +41,14 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }))
 
+io.engine.use(session({
+    store: new PGStore({ pool: pool }),
+    secret: process.env.SSSKEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }
+}))
+
 //Routes
 app.use("/auth", authR)
 app.use("/friends", friendsR)

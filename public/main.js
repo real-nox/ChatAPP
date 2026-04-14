@@ -1,3 +1,5 @@
+let current_room;
+
 window.addEventListener("load", async (ev) => {
     const { success, error, friends } = await getListFriends()
     const container = document.getElementById("listFriendsDMs")
@@ -49,6 +51,22 @@ document.addEventListener("submit", async (ev) => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    if (ev.target.classList.contains("messagesend")) {
+        ev.preventDefault()
+        const content = document.getElementById("msg").value
+        if (!content) return
+
+        socket.emit("messageSend", {
+            roomName: current_room,
+            content: content
+        })
+
+        const message = document.getElementById("chat")
+        message.innerHTML += "<p><strong>" + content + "</strong><p>"
+
+        document.getElementById("msg").value = ""
     }
 })
 
@@ -130,19 +148,24 @@ document.addEventListener("click", async (ev) => {
                 return console.log(error);
 
             top.innerHTML = `<p>${friend.id} - ${friend.username}</p>`
-            msgsend.innerHTML = `<form id="messagesend">
-                                    <input type="text" name="" id="">
+            msgsend.innerHTML = `<form id="messagesend" class="messagesend">
+                                    <input type="text" name="" id="msg">
                                     <button type="submit">Send</button>
                                 </form>`
 
-            const roomName = [current_user_id, friend_id].sort().join("_")
-            socket.emit("joinroom", roomName)
+            current_room = [current_user_id, friend_id].sort().join("_")
+            socket.emit("joinroom", current_room)
             console.log(socket)
-            console.log("Open chat with ", friend_id, "in room", roomName, socket.id)
+            console.log("Open chat with ", friend_id, "in room", current_room, socket.id)
         } catch (err) {
             console.log(err)
         }
     }
+})
+
+socket.on("messageRecieve", ({ content }) => {
+    const message = document.getElementById("chat")
+    message.innerHTML += "<p>" + content + "<p>"
 })
 
 async function getListFriends() {

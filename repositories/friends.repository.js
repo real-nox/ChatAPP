@@ -75,12 +75,25 @@ export const declinetReqF = async (request_id, user_id) => {
 export const listF = async (user_id) => {
     try {
         const result = await pool.query(`select u.id, u.username from friends_requests fr join users u on u.id = fr.reciever_id where fr.sender_id = $1 and fr.status = 'accepted'
-            union select u.id, u.username from friends_requests fr join users u on u.id = fr.sender_id where fr.reciever_id = $1 and fr.status = 'accepted' `, 
+            union select u.id, u.username from friends_requests fr join users u on u.id = fr.sender_id where fr.reciever_id = $1 and fr.status = 'accepted' `,
             [user_id])
 
         if (result?.rowCount > 0)
             return result.rows
         return []
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const isFriend = async (friend_id, user_id) => {
+    try {
+        const result = await pool.query(`select * from friends_requests where ((reciever_id = $1 and sender_id = $2) or (sender_id = $1 and reciever_id = $2)) and status = 'accepted'`,
+            [friend_id, user_id])
+
+        if (result?.rowCount > 0)
+            return true
+        return false
     } catch (err) {
         console.log(err)
     }
