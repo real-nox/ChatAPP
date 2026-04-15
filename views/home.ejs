@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatty <%= locals.user ? `- ${locals.user.username}` : "" %></title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="userPage.css">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="guest.css">
+    <link rel="stylesheet" href="user.css">
+    <link rel="stylesheet" href="settings.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
     <% if (!user) { %>
-        <nav class="Topbar">
-            <a href="/auth/register">Register</a>
-            <a href="/auth/login">Login</a>
-        </nav>
+        <%- include("includes/topbar") %>
     <% } else { %>
         <%- include("includes/settings") %>
         <div class="window">

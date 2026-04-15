@@ -4,6 +4,10 @@ import { auth_m, ifLogged } from "../middlewares/auth.middleware.js"
 
 const authR = Router()
 
+authR.get("/", (req, res) => {
+    return res.redirect("/")
+})
+
 authR.get("/register", ifLogged, (req, res) => {
     res.render("register")
 })

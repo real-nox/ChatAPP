@@ -70,8 +70,7 @@ export const getMessages = async (conv_id) => {
         const result = await pool.query("select m.sender_id, u.username, m.content, m.created_at from messages m join users u on (m.sender_id = u.id) where m.conversation_id = $1 order by m.created_at asc limit 50 ", [conv_id])
 
         if (result.rowCount > 0) {
-            console.log(result.rows)
-            return result.rows
+           return result.rows
         }
         return false
     } catch (err) {

@@ -8,7 +8,7 @@
         <div class="addFriend">
             <form class="addFriendForm" id="addFriendForm" method="post" action="/friends/requests/send">
                 <p id="labelFriendInp"></p>
-                <input id="usernameInp" type="text" name="friendUsername" placeholder="Entrer username to add">
+                <input id="usernameInp" maxlength="40" type="text" name="friendUsername" placeholder="Entrer username to add">
                 <div class="buttons">
                     <button type="submit">Send Invitation</button>
                     <button id="requestsBTN" class="requestsBTN" type="button">Requests</button>

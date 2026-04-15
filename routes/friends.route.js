@@ -6,6 +6,10 @@ const friendsR = Router()
 
 friendsR.use(auth_m)
 
+friendsR.get("/", (req, res) => {
+    return res.redirect("/")
+})
+
 friendsR.post("/requests/send", send_request_c)
 
 friendsR.patch("/requests/:id/accept", accept_request_c)

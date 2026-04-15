@@ -5,36 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../main.css">
+    <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../guest.css">
 </head>
 
 <body>
-    <nav class="Topbar">
-        <a href="/auth/register">Register</a>
-    </nav>
+    <%- include("includes/topbar") %>
 
-    <div class="center_container">
-        <div class="container">
-            <div class="topcontainer">
-                <h3>LOGIN</h3>
-            </div>
-            <div class="formcontainer">
-                <form method="post" action="/auth/login">
-                    <div class="formElements">
-                        <% if (locals.error !=undefined) {%>
-                            <p id="error_p">
-                                <%= error%>
-                            </p>
-                            <% } %>
-                                <input type="text" name="user_email" placeholder="Email/Username">
-                                <input type="password" name="pwd" placeholder="Password">
-                                <button type="submit">LOGIN</button>
-                                <a id="registerBTN" href="/auth/register">Register</a>
-                    </div>
-                </form>
+        <div class="center_container">
+            <div class="container">
+                <div class="topcontainer">
+                    <h3>LOGIN</h3>
+                </div>
+                <div class="formcontainer">
+                    <form method="post" action="/auth/login">
+                        <div class="formElements">
+                            <% if (locals.error !=undefined) {%>
+                                <p id="error_p">
+                                    <%= error %>
+                                </p>
+                                <% } %>
+                                    <input type="text" name="user_email" placeholder="Email/Username">
+                                    <input type="password" name="pwd" placeholder="Password">
+                                    <button type="submit">LOGIN</button>
+                                    <div class="secondarybtns">
+                                        <a id="registerBTN" href="/auth/register">Register</a>
+                                        <a id="forgotpass" href="/auth/forgot-password">Forgot-Password?</a>
+                                    </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>

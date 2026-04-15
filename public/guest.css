@@ -1,0 +1,201 @@
+/* Main Guest Page CSS */
+* {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Topbar {
+    height: 7vh;
+    display: flex;
+    background-color: #0b2b75;
+}
+
+.Topbar .icon {
+    width: 70%;
+    padding-left: 10%;
+    justify-content: start;
+}
+
+.Topbar .connection {
+    width: 22%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.Topbar .connection,
+.Topbar .icon {
+    display: flex;
+    align-items: center;
+}
+
+.Topbar .icon a img {
+    width: 50px;
+    height: 50px;
+}
+
+.Topbar .a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.5s ease;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #6366F1;
+}
+
+.Topbar .a:hover {
+    color: rgb(202, 230, 255);
+}
+
+/* Register/Login Pages CSS */
+
+.center_container {
+    height: 93vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    border-radius: 10px;
+    border: 3px solid rgb(39, 39, 39);
+
+    width: 450px;
+    max-height: 450px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.container .topcontainer {
+    height: 35px;
+    width: 100%;
+    background-color: rgb(39, 39, 39);
+
+    border-radius: 5px 5px 0px 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+}
+
+.container .formcontainer {
+    height: 80%;
+    width: 100%;
+}
+
+.container .formElements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 5.5%;
+
+    padding-bottom: 5.5%;
+}
+
+.container .formElements input {
+    width: 80%;
+    height: 25px;
+    margin-bottom: 25px;
+    border: 2px solid #E2E8F0;
+}
+
+.container .formcontainer input:focus {
+    border: 2px solid #6366F1;
+}
+
+.container .formElements button {
+    width: 80%;
+    background-color: #4F46E5;
+    color: white;
+    border-radius: 10px;
+    border-color: rgb(72, 72, 217);
+    height: 30px;
+    cursor: pointer;
+
+    transition: all 0.5s ease-in-out;
+}
+
+.container .formElements button:hover {
+    background-color: #4338CA;
+}
+
+.container .formcontainer label {
+    font-size: small;
+}
+
+.container .formElements #error_p {
+    width: 82%;
+    padding-bottom: 15px;
+    text-align: center;
+    color: #EF4444;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.container .formElements .secondarybtns {
+    margin-top: 15px;
+    padding: 5px 25px;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.container .formElements .secondarybtns.reg {
+    justify-content: center;
+}
+
+.container .formElements #loginbtn {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    border: 1px solid #484ad6;
+    border-radius: 12px;
+    text-align: center;
+    background-color: #6366F1;
+    width: 100px;
+    height: 25px;
+
+    transition: background-color 1s ease, color 0.5s ease;
+}
+
+.container .formElements #loginbtn:hover {
+    background-color: rgb(18, 0, 118);
+    color: rgb(255, 255, 255);
+}
+
+.container .formElements #registerBTN {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(212, 34, 76);
+    border-radius: 12px;
+    text-align: center;
+    background-color: rgb(255, 77, 77);
+    width: 100px;
+    height: 25px;
+    transition: background-color 1s ease, color 0.5s ease;
+}
+
+.container .formElements #registerBTN:hover {
+    background-color: rgb(255, 157, 157);
+    color: rgb(255, 255, 255);
+}
+
+.container .formElements #forgotpass {
+    background-color: #6366F1;
+    color: rgb(202, 202, 202);
+    width: 180px;
+    height: 25px;
+    text-align: center;
+    border: 1px solid rgb(34, 46, 212);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background-color 1s ease, color 0.5s ease;
+}
+
+.container .formElements #forgotpass:hover {
+    background-color: #272864;
+}

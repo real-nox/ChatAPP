@@ -157,6 +157,10 @@ document.addEventListener("click", async (ev) => {
             const center = document.getElementById("chat")
             const msgsend = document.getElementById("msgsend")
 
+            top.classList.add("load")
+            center.classList.add("load")
+            msgsend.classList.add("load")
+
             const friend_id = ev.target.dataset.id
 
             console.log(friend_id)
@@ -168,7 +172,7 @@ document.addEventListener("click", async (ev) => {
             top.innerHTML = `<p>${friend.id} - ${friend.username}</p>`
             msgsend.innerHTML = `<form id="messagesend" class="messagesend">
                                     <input type="text" name="" id="msg">
-                                    <button type="submit">Send</button>
+                                    <button type="submit"><span class="material-symbols-outlined">send</span></button>
                                 </form>`
 
             current_room = [current_user_id, friend_id].sort().join("_")
@@ -178,6 +182,10 @@ document.addEventListener("click", async (ev) => {
         } catch (err) {
             console.log(err)
         }
+    }
+
+    if (ev.target.classList.contains("closeSettings")) {
+        document.getElementById("settingsContainer").classList.remove("show")
     }
 })
 

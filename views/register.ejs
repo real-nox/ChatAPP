@@ -5,53 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="../main.css">
+    <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../guest.css">
 </head>
 
 <body>
-    <nav class="Topbar">
-        <a href="/auth/login">Login</a>
-    </nav>
+    <%- include("includes/topbar") %>
 
-    <div class="center_container">
-        <div class="container">
-            <div class="topcontainer">
-                <h3>REGISTER</h3>
-            </div>
-            <div class="formcontainer">
-                <form method="post" action="/auth/register">
-                    <div class="formElements">
-                        <% if (locals.error !=undefined) {%>
-                            <p id="error_p">
-                                <%= error%>
-                            </p>
-                            <% } %>
-                                <input type="text" name="username" placeholder="Your Username" maxlength="20">
-                                <input type="email" name="email" placeholder="Your Email">
-                                <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
-                                <label for="passwordCheck" id="CheckingPassword"></label>
-                                <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
-                                    placeholder="Repeat your password">
-                                <button id="createBTN" type="submit">CREATE AN ACCOUNT</button>
-                                <a id="loginbtn" href="/auth/login">Login</a>
-                    </div>
-                </form>
+        <div class="center_container">
+            <div class="container">
+                <div class="topcontainer">
+                    <h3>REGISTER</h3>
+                </div>
+                <div class="formcontainer">
+                    <form method="post" action="/auth/register">
+                        <div class="formElements">
+                            <% if (locals.error !=undefined) {%>
+                                <p id="error_p">
+                                    <%= error%>
+                                </p>
+                                <% } %>
+                                    <input type="text" name="username" placeholder="Your Username" maxlength="20">
+                                    <input type="email" name="email" placeholder="Your Email">
+                                    <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
+                                    <label for="passwordCheck" id="CheckingPassword"></label>
+                                    <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
+                                        placeholder="Repeat your password">
+                                    <button id="createBTN" type="submit">CREATE AN ACCOUNT</button>
+                                    <div class="secondarybtns reg">
+                                        <a id="loginbtn" href="/auth/login">Login</a>
+                                    </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        const passwordCheck = document.getElementById("passwordCheck")
-        const password = document.getElementById("pwd")
+        <script>
+            const passwordCheck = document.getElementById("passwordCheck")
+            const password = document.getElementById("pwd")
 
-        passwordCheck.addEventListener("input", (ev) => {
-            if (ev.target.value != password.value)
-                document.getElementById("CheckingPassword").innerText = "NOT MATCHED PASSWORD"
-            else
-                document.getElementById("CheckingPassword").innerText = ""
+            passwordCheck.addEventListener("input", (ev) => {
+                if (ev.target.value != password.value)
+                    document.getElementById("CheckingPassword").innerText = "NOT MATCHED PASSWORD"
+                else
+                    document.getElementById("CheckingPassword").innerText = ""
 
-        })
-    </script>
+            })
+        </script>
 </body>
 
 </html>
