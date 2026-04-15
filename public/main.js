@@ -18,6 +18,7 @@ window.addEventListener("load", async (ev) => {
 })
 
 const current_user_id = document.getElementById("settings").dataset.id
+const current_user_username = document.getElementById("settings").dataset.username
 
 document.addEventListener("submit", async (ev) => {
 
@@ -64,9 +65,24 @@ document.addEventListener("submit", async (ev) => {
         })
 
         const message = document.getElementById("chat")
-        message.innerHTML += "<p><strong>" + content + "</strong><p>"
 
         document.getElementById("msg").value = ""
+
+        let div = `<div class='messagebubble right'>
+                    <div class="messageContainer">
+                        <div class="msgUser">
+                            <p><strong>${current_user_username}</strong></p>
+                        </div>
+                        <div class="msgContent" id="msgContent">
+                            <p>${content}</p>
+                        </div >
+                        <div class="msgTIME">
+                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
+                        </div>
+                    </div >
+                </div >`
+
+        message.innerHTML += div
     }
 })
 
@@ -163,9 +179,61 @@ document.addEventListener("click", async (ev) => {
     }
 })
 
-socket.on("messageRecieve", ({ content }) => {
-    const message = document.getElementById("chat")
-    message.innerHTML += "<p>" + content + "<p>"
+socket.on("messageRecieve", ({ content, username }) => {
+    const center = document.getElementById("chat")
+
+    let div = `<div class='messagebubble left'>
+                    <div class="messageContainer">
+                        <div class="msgUser">
+                            <p><strong>${username}</strong></p>
+                        </div>
+                        <div class="msgContent" id="msgContent">
+                            <p>${content}</p>
+                        </div >
+                        <div class="msgTIME">
+                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
+                        </div>
+                    </div >
+                </div >`
+
+    center.innerHTML += div
+})
+
+socket.on("loadMessages", ({ messages }) => {
+    const room = document.getElementById("friendChannel")
+
+    const top = document.getElementById("top")
+    const center = document.getElementById("chat")
+    const msgsend = document.getElementById("msgsend")
+
+    if (!messages || messages.length == 0) {
+        return center.innerHTML = ""
+    }
+
+    for (const { sender_id, username, content, created_at } of messages) {
+        let div = ""
+        if (sender_id == current_user_id) {
+            div = "<div class='messagebubble right'>"
+        } else {
+            div = "<div class='messagebubble left'>"
+        }
+
+        div += `
+            <div class="messageContainer">
+                    <div class="msgUser">
+                        <p><strong>${username}</strong></p>
+                    </div>
+                    <div class="msgContent" id="msgContent">
+                        <p>${content}</p>
+                    </div >
+                    <div class="msgTIME">
+                        <p>${new Date(created_at).toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
+                    </div>
+            </div >
+        </div >`
+
+        center.innerHTML += div
+    }
 })
 
 async function getListFriends() {

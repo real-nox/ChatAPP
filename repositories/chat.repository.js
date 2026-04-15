@@ -29,14 +29,14 @@ export const SetConversation_Member = async (user_id, conv_id) => {
 export const getConversation = async (user1_id, user2_id) => {
     try {
         const result = await pool.query(
-            `select c.id from conversations c join conversation_members cm1 on (c.id = cm1.conversation_id) join conversation_members cm2 on (c.id = cm2.conversation_id) where cm1.user_id = $1 and cm2.user_id = $2`, 
+            `select c.id from conversations c join conversation_members cm1 on (c.id = cm1.conversation_id) join conversation_members cm2 on (c.id = cm2.conversation_id) where cm1.user_id = $1 and cm2.user_id = $2`,
             [user1_id, user2_id]
         )
 
         if (result.rowCount > 0)
             return result.rows[0]
 
-        const {id : conv_id} = await CreateConversation_Get_id()
+        const { id: conv_id } = await CreateConversation_Get_id()
         console.log(conv_id)
 
         if (!conv_id)
@@ -52,9 +52,28 @@ export const getConversation = async (user1_id, user2_id) => {
     }
 }
 
-export const saveMessage = async () => {
+export const saveMessage = async (conv_id, user_id, content) => {
     try {
-        pool
+        console.log(conv_id)
+        const result = await pool.query("insert into messages (sender_id, conversation_id, content) values ($1, $2, $3)", [user_id, conv_id, content])
+
+        if (result.rowCount > 0)
+            return true
+        return false
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const getMessages = async (conv_id) => {
+    try {
+        const result = await pool.query("select m.sender_id, u.username, m.content, m.created_at from messages m join users u on (m.sender_id = u.id) where m.conversation_id = $1 order by m.created_at asc limit 50 ", [conv_id])
+
+        if (result.rowCount > 0) {
+            console.log(result.rows)
+            return result.rows
+        }
+        return false
     } catch (err) {
         console.log(err)
     }

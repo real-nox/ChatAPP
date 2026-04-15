@@ -1,6 +1,4 @@
 import express from "express"
-import session from "express-session"
-import connectpg from "connect-pg-simple"
 import { createServer } from "http"
 import { Server } from "socket.io"
 import { dirname, join } from "path"
@@ -10,20 +8,19 @@ import { config } from "dotenv"
 config({ quiet: true })
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-import { LoadDB, pool } from "./db/index.db.js"
+import { LoadDB } from "./db/index.db.js"
 
 import authR from "./routes/auth.route.js"
 import friendsR from "./routes/friends.route.js"
 
 import { auth_m } from "./middlewares/auth.middleware.js"
 import { initSocket } from "./chat/socket.js"
+import { sessionM } from "./middlewares/session.middleware.js"
 
 const app = express()
 
 const httpServer = createServer(app)
 const io = new Server(httpServer)
-
-const PGStore = connectpg(session)
 
 app.use(express.static(join(__dirname, "public")))
 
@@ -33,21 +30,8 @@ app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.use(session({
-    store: new PGStore({ pool: pool }),
-    secret: process.env.SSSKEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }
-}))
-
-io.engine.use(session({
-    store: new PGStore({ pool: pool }),
-    secret: process.env.SSSKEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }
-}))
+app.use(sessionM)
+io.engine.use(sessionM)
 
 //Routes
 app.use("/auth", authR)

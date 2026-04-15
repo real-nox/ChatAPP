@@ -32,6 +32,7 @@
 .leftList .listFriendsDMs {
     height: 75vh;
     background-color: red;
+    overflow-y: scroll;
 }
 
 .leftList .settings {
