@@ -9,8 +9,10 @@
             <form class="addFriendForm" id="addFriendForm" method="post" action="/friends/requests/send">
                 <p id="labelFriendInp"></p>
                 <input id="usernameInp" type="text" name="friendUsername" placeholder="Entrer username to add">
-                <button type="submit">Send Invitation</button>
-                <button id="requestsBTN" class="requestsBTN" type="button">Requests</button>
+                <div class="buttons">
+                    <button type="submit">Send Invitation</button>
+                    <button id="requestsBTN" class="requestsBTN" type="button">Requests</button>
+                </div>
             </form>
         </div>
 
@@ -18,8 +20,11 @@
             <p></p>
         </div>
 
-        <div id="settings" class="settings" data-id="<%= user.id %>">
-
+        <div id="settings" class="settings" data-id="<%= user.id %>" data-username="<%= user.username %>">
+            <button>Settings</button>
+            <div class="logout">
+                <a href="/auth/logout">Logout</a>
+            </div>
         </div>
     </div>
 </div>

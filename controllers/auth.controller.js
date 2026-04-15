@@ -39,3 +39,11 @@ export const login_c = async (req, res, next) => {
         next(err)
     }
 }
+
+export const logout_c = async (req, res, next) => {
+    req.session.destroy((err) => {
+        if (err) return next(err)
+            res.clearCookie("connect.sid")
+            return res.redirect("/auth/login")
+    })
+}

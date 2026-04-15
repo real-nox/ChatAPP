@@ -9,8 +9,10 @@ window.addEventListener("load", async (ev) => {
 
     let div = ""
     for (const friend of friends) {
+        socket.emit()
         div += `<div class="friendItem" id="friendItem" data-id="${friend.id}">
-                    <button class="friendChannelBTN" data-id="${friend.id}">${friend.username}</button>
+                    <button class="friendChannelBTN" id="friendChannelBTN" data-id="${friend.id}">${friend.username}</button>
+                    <div class="presence red"></div>
                 </div>`
     }
 
@@ -234,6 +236,30 @@ socket.on("loadMessages", ({ messages }) => {
 
         center.innerHTML += div
     }
+})
+
+socket.on("friendOnline", ({ userId }) => {
+
+    console.log(userId)
+    document.querySelectorAll(".friendItem").forEach(friend => {
+        if (friend.dataset.id == userId) {
+            console.log("target", friend)
+            friend.querySelector(".presence").classList.remove("red")
+            friend.querySelector(".presence").classList.add("green")
+        }
+    })
+})
+
+socket.on("friendOffline", ({ userId }) => {
+
+    console.log(userId)
+    document.querySelectorAll(".friendItem").forEach(friend => {
+        if (friend.dataset.id == userId) {
+            console.log("target", friend)
+            friend.querySelector(".presence").classList.remove("green")
+            friend.querySelector(".presence").classList.add("red")
+        }
+    })
 })
 
 async function getListFriends() {

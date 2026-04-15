@@ -14,3 +14,9 @@ export const auth_m = async (req, res, next) => {
         next(error)
     }
 }
+
+export const ifLogged = (req, res, next) => {
+    if (req.session.userId)
+        return res.redirect("/")
+    next()
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatty</title>
+    <title>Chatty <%= locals.user ? `- ${locals.user.username}` : "" %></title>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="userPage.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -15,6 +15,7 @@
             <a href="/auth/login">Login</a>
         </nav>
     <% } else { %>
+        <%- include("includes/settings") %>
         <div class="window">
             <%- include("includes/leftList", {user})%>
             <%- include("includes/friendsList") %>
@@ -27,8 +28,7 @@
             socket.on("connect", (s) => console.log("Connected to server : ", socket.id))
             
         </script>
+        <script src="main.js"></script>
     <% } %>
 </body>
-
-<script src="main.js"></script>
 </html>

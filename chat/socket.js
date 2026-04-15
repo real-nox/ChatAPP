@@ -1,13 +1,45 @@
 import { getConversation, getMessages, saveMessage } from "../repositories/chat.repository.js"
+import { listF } from "../repositories/friends.repository.js"
 import { getUserById } from "../repositories/user.repository.js"
 
+const onlineUsers = {}
 export function initSocket(io) {
     io.on("connection", async (socket) => {
         const user_id = socket.request.session.userId
-        const username = (await getUserById(user_id)).username
+        if (!user_id) return socket.disconnect()
+
+        const user = await getUserById(user_id)
+        const username = user.username
+        const friends = await listF(user_id)
+
+        onlineUsers[user_id] = socket.id
         console.log(`[LiveServer] Connection established for user ${user_id}!`)
 
-        socket.on("disconnect", () => console.log("Disconnected."))
+        if (friends) {
+            friends.forEach(friend => {
+                const friendSocket_id = onlineUsers[friend.id]
+                if (friendSocket_id) {
+                    socket.to(friendSocket_id).emit("friendOnline", { userId: user_id })
+                    socket.emit("friendOnline", { userId: friend.id })
+                } else {
+                    socket.emit("friendOffline", { userId: friend.id })
+                }
+            })
+        }
+
+        socket.on("disconnect", () => {
+
+            if (friends) {
+                friends.forEach(friend => {
+                    const friendSocket_id = onlineUsers[friend.id]
+                    if (friendSocket_id)
+                        socket.to(friendSocket_id).emit("friendOffline", { userId: user_id })
+                })
+            }
+
+            delete onlineUsers[user_id]
+            console.log(user_id, "Disconnected.")
+        })
 
         socket.on("joinroom", async (roomName) => {
             socket.join(roomName)
@@ -21,7 +53,7 @@ export function initSocket(io) {
             socket.conversation_id = conversation_id
 
             const messages = await getMessages(conversation_id)
-            socket.emit("loadMessages", {messages})
+            socket.emit("loadMessages", { messages })
         })
 
         socket.on("messageSend", async ({ roomName, content }) => {

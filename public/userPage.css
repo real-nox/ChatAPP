@@ -21,7 +21,17 @@
     gap: 10px;
 }
 
-.leftList .addFriend form input {
+.leftList .insideList .topPart {
+    text-align: center;
+}
+
+.leftList .addFriend {
+    display: flex;
+}
+
+.leftList .addFriend form {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
@@ -29,15 +39,13 @@
     padding-bottom: 15px;
 }
 
-.leftList .listFriendsDMs {
-    height: 75vh;
-    background-color: red;
-    overflow-y: scroll;
+.leftList .addFriend form .buttons {
+    display: flex;
+    width: 100%;
 }
 
-.leftList .settings {
-    height: 5vh;
-    background-color: gray;
+.leftList .addFriend form button {
+    width: 50%;
 }
 
 .window .friendsReqList {
@@ -66,25 +74,46 @@
     height: max-content;
 }
 
-.material-symbols-outlined {
-    cursor: pointer;
+.leftList .listFriendsDMs {
+    height: 75vh;
+    background-color: rgb(0, 0, 0);
+    overflow-y: auto;
 }
 
-.material-symbols-outlined.close {
-    color: red;
+.friendItem {
+    background-color: rgb(39, 39, 39);
+    display: flex;
+    align-items: center;
+    transition: background-color 0.5s ease;
 }
 
-.material-symbols-outlined.check {
-    color: rgb(0, 212, 0);
+.friendItem:hover {
+    background-color: rgb(131, 131, 131);
+    transition: background-color 0.5s ease;
 }
-
 
 .friendItem button {
-    width: 100%;
+    width: 80%;
     height: 4vh;
-    background-color: rgb(61, 0, 0);
+    border: 0;
     color: white;
     cursor: pointer;
+    background-color: transparent;
+}
+
+
+.friendItem .presence {
+    height: 12.5px;
+    width: 12.5px;
+    border-radius: 25px;
+}
+
+.friendItem .presence.red {
+    background-color: red;
+}
+
+.friendItem .presence.green {
+    background-color: green;
 }
 
 .friendChannel {
@@ -113,4 +142,47 @@
 .friendChannel .msgsend {
     height: 8%;
     background-color: rgb(184, 184, 184);
+}
+
+.leftList .settings button {
+    width: 60%;
+    height: 100%;
+    border: 0;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background-color: rgb(88, 88, 88);
+    font-size: 15px;
+}
+
+.leftList .settings {
+    display: flex;
+    height: 5vh;
+    background-color: gray;
+}
+
+.leftList .settings .logout {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(88, 88, 88);
+}
+
+.leftList .settings .logout a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+}
+
+.material-symbols-outlined.close {
+    color: red;
+}
+
+.material-symbols-outlined.check {
+    color: rgb(0, 212, 0);
 }
