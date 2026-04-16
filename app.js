@@ -16,6 +16,7 @@ import friendsR from "./routes/friends.route.js"
 import { auth_m } from "./middlewares/auth.middleware.js"
 import { initSocket } from "./chat/socket.js"
 import { sessionM } from "./middlewares/session.middleware.js"
+import msg from "./routes/msg.route.js"
 
 const app = express()
 
@@ -36,6 +37,7 @@ io.engine.use(sessionM)
 //Routes
 app.use("/auth", authR)
 app.use("/friends", friendsR)
+app.use("/messages", msg)
 
 app.get("/", auth_m, async (req, res) => {
     res.render("home", { user: req.user })

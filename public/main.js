@@ -209,23 +209,32 @@ socket.on("messageRecieve", ({ content, username }) => {
     center.innerHTML += div
 })
 
-socket.on("loadMessages", ({ messages }) => {
+socket.on("loadMessages", async ({ messages }) => {
     const room = document.getElementById("friendChannel")
 
     const top = document.getElementById("top")
     const center = document.getElementById("chat")
     const msgsend = document.getElementById("msgsend")
 
+    center.innerHTML = ""
+
     if (!messages || messages.length == 0) {
         return center.innerHTML = ""
     }
 
-    for (const { sender_id, username, content, created_at } of messages) {
+    for (const { id, sender_id, username, content, created_at, seen } of messages) {
         let div = ""
+        let downdiv = seen ? "Seen" : "Not seen"
         if (sender_id == current_user_id) {
-            div = "<div class='messagebubble right'>"
+                div = "<div class='messagebubble right'>"
         } else {
-            div = "<div class='messagebubble left'>"
+            if (!seen) {
+                div = "<div class='messagebubble left'>"
+                console.log(id)
+                await seenMessageId(id)
+            } else {
+                div = "<div class='messagebubble left seen'>"
+            }
         }
 
         div += `
@@ -237,7 +246,7 @@ socket.on("loadMessages", ({ messages }) => {
                         <p>${content}</p>
                     </div >
                     <div class="msgTIME">
-                        <p>${new Date(created_at).toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
+                        <p>${new Date(created_at).toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}- ${downdiv}</p>
                     </div>
             </div >
         </div >`
@@ -328,5 +337,20 @@ async function getFriendInfo(friend_id) {
         return data
     } catch (err) {
         console.error(err);
+    }
+}
+
+async function seenMessageId(message_id) {
+    try {
+        console.log("here ofc")
+        const result = await fetch(`/messages/${message_id}/seen`, { 
+            method : 'PATCH',
+        })
+
+        const data = await result.json()
+
+        console.log(data)
+    } catch (err) {
+        console.log(err)
     }
 }

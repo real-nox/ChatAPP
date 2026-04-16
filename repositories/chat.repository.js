@@ -67,10 +67,25 @@ export const saveMessage = async (conv_id, user_id, content) => {
 
 export const getMessages = async (conv_id) => {
     try {
-        const result = await pool.query("select m.sender_id, u.username, m.content, m.created_at from messages m join users u on (m.sender_id = u.id) where m.conversation_id = $1 order by m.created_at asc limit 50 ", [conv_id])
+        const result = await pool.query("select m.id, m.sender_id, u.username, m.content, m.created_at, m.seen from messages m join users u on (m.sender_id = u.id) where m.conversation_id = $1 order by m.created_at asc limit 50 ", [conv_id])
 
         if (result.rowCount > 0) {
            return result.rows
+        }
+        return false
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const setSeenMsg = async (message_id) => {
+        try {
+
+            console.log(message_id)
+        const result = await pool.query("update messages set seen = 1 where id = $1", [message_id])
+
+        if (result.rowCount > 0) {
+           return true
         }
         return false
     } catch (err) {

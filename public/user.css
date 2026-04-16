@@ -260,6 +260,16 @@
     color: black;
 }
 
+.friendChannel .messagebubble.left.seen .messageContainer {
+    background-color: rgb(32, 107, 32);
+    color: white;
+}
+
+.friendChannel .messagebubble.right.seen .messageContainer {
+    background-color: #ececec;
+    color: white;
+}
+
 .friendChannel .messagebubble.right .messageContainer,
 .friendChannel .messagebubble.right .msgContent p {
     color: white
