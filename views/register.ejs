@@ -20,21 +20,24 @@
                 <div class="formcontainer">
                     <form method="post" action="/auth/register">
                         <div class="formElements">
-                            <% if (locals.error !=undefined) {%>
+                            <% if (locals.error) {%>
                                 <p id="error_p">
-                                    <%= error%>
+                                    <%= locals.error ? locals.error : "" %>
                                 </p>
-                                <% } %>
-                                    <input type="text" name="username" placeholder="Your Username" maxlength="20">
-                                    <input type="email" name="email" placeholder="Your Email">
-                                    <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
-                                    <label for="passwordCheck" id="CheckingPassword"></label>
-                                    <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
-                                        placeholder="Repeat your password">
-                                    <button id="createBTN" type="submit">CREATE AN ACCOUNT</button>
-                                    <div class="secondarybtns reg">
-                                        <a id="loginbtn" href="/auth/login">Login</a>
-                                    </div>
+                            <% } %>
+                            <input type="text" name="display_name" placeholder="Display name" maxlength="20">
+                            <label for="username" id="CheckingUsername"></label>
+                            <input type="text" id="username" name="username" placeholder="Your Username" maxlength="20">
+                            <label for="email" id="CheckingEmail"></label>
+                            <input type="email" name="email" placeholder="Your Email">
+                            <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
+                            <label for="passwordCheck" id="CheckingPassword"></label>
+                            <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
+                                placeholder="Repeat your password">
+                            <button id="createBTN" type="submit" disabled>CREATE AN ACCOUNT</button>
+                            <div class="secondarybtns reg">
+                                <a id="loginbtn" href="/auth/login">Login</a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -44,6 +47,38 @@
         <script>
             const passwordCheck = document.getElementById("passwordCheck")
             const password = document.getElementById("pwd")
+            const username = document.getElementById("username")
+
+            const username_error = document.getElementById("CheckingUsername")
+
+            username.addEventListener("input", (ev) => {
+                if (ev.target.value != ev.target.value.toLowerCase() || ev.target.value.includes(" ")) {
+                    username_error.innerText = "Username should not contain uppercase letters or ' '"
+                } else {
+                    username_error.innerText = ""
+                }
+
+                if (ev.target.value.length >= 5 || ev.target.value.length <= 15) {
+                    document.getElementById("createBTN").disabled = false
+                }
+            })
+
+            /*let cU = 0
+            let cNum = 0
+            password.addEventListener("input", (ev) => {
+                ev.target.value.split(" ").forEach(w => {
+                    console.log(ev.target.value.split(" "))
+                    if (w == w.toUpperCase())
+                        cU += 1;
+
+                    if (w.match(/[0-9]/g)) {
+                        cNum += 1
+                    }
+                });
+                console.log(cU, cNum)
+            })*/
+
+            console.log(cU, cNum)
 
             passwordCheck.addEventListener("input", (ev) => {
                 if (ev.target.value != password.value)

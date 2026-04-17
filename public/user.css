@@ -156,14 +156,29 @@
 }
 
 .friendChannel .msgsend.load {
+    background-color: #ebebeb;
     height: 10%;
-    background-color: #0F172A;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: end;
     align-items: center;
 }
 
-.friendChannel .msgsend.load .messagesend {
+.friendChannel .msgsend.load .formsend {
+    background-color: #0F172A;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friendChannel .msgsend.load .writingDiv {
+    width: 95%;
+    text-align: end;
+}
+
+.friendChannel .msgsend.load .formsend .messagesend {
     height: 50%;
     width: 70%;
     display: flex;
@@ -232,7 +247,6 @@
     gap: 5px;
     padding: 5px;
     overflow-y: auto;
-    border: 2.5px solid rgb(0, 0, 0);
     scrollbar-width: thin;
     scrollbar-color: #f1f1f1 #0F172A;
 }
@@ -261,12 +275,12 @@
 }
 
 .friendChannel .messagebubble.left.seen .messageContainer {
-    background-color: rgb(32, 107, 32);
+    background-color: rgb(118, 151, 118);
     color: white;
 }
 
 .friendChannel .messagebubble.right.seen .messageContainer {
-    background-color: #ececec;
+    background-color: #04074d;
     color: white;
 }
 
