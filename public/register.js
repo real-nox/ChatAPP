@@ -8,7 +8,6 @@ const passwordCheck = document.getElementById("passwordCheck")
 const password = document.getElementById("pwd")
 const username = document.getElementById("username")
 const eye = document.getElementById("eye")
-const eyeopened = document.getElementById("eyeopened")
 
 eye.addEventListener("mousedown", () => {
     password.type = "text"

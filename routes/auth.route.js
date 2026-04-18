@@ -9,19 +9,19 @@ authR.get("/", (req, res) => {
 })
 
 authR.get("/register", ifLogged, (req, res) => {
-    res.render("guest/register")
+    res.render("pages/register")
 })
 
 authR.post("/register", auth_controller.register_c)
 
 authR.get("/login", ifLogged, (req, res) => {
-    res.render("guest/login")
+    res.render("pages/login")
 })
 
 authR.post("/login", auth_controller.login_c)
 
 authR.get("/forgot-password", ifLogged, (req, res) => {
-    res.render("guest/forgotpass")
+    res.render("pages/forgotpass")
 })
 
 authR.post("/forgot-password", auth_controller.forgot_password_c)
