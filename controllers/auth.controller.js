@@ -1,20 +1,18 @@
 import * as auth_service from "../services/auth.service.js"
 
 export const register_c = async (req, res, next) => {
-    const { username, email, pwd, passwordCheck } = req.body
+    const { username, display_name, email, pwd, passwordCheck } = req?.body
 
-    if (!username || !email || !pwd || !passwordCheck)
-        return res.render("register", { error: "Complete the form" })
+    if (!username || !display_name || !email || !pwd || !passwordCheck)
+        return res.render("guest/register", { error: "Complete the form" })
 
     if (pwd !== passwordCheck)
-        return res.render("register", { error: "Passwords aren't matching!" })
-
-    //Check if username is already used (I'll do it in frontend for smooth work)
+        return res.render("guest/register", { error: "Passwords are not matching!" })
 
     try {
-        const { success, error } = await auth_service.register_s({ username, email, pwd })
+        const { success, error } = await auth_service.register_s({ display_name, username, email, pwd })
 
-        if (!success) return res.render("register", { error })
+        if (!success) return res.render("guest/register", { error })
 
         return res.redirect("/auth/login")
     } catch (err) {
@@ -26,12 +24,12 @@ export const login_c = async (req, res, next) => {
     const { user_email, pwd } = req.body
 
     if (!user_email || !pwd)
-        return res.render("login", { error: "Complete the form" })
+        return res.render("guest/login", { error: "Complete the form" })
 
     try {
         const { success, error, user = null } = await auth_service.login_s({ user_email, pwd })
 
-        if (!success) return res.render("login", { error })
+        if (!success) return res.render("guest/login", { error })
 
         req.session.userId = user.id
         return res.redirect("/")
@@ -46,4 +44,12 @@ export const logout_c = async (req, res, next) => {
             res.clearCookie("connect.sid")
             return res.redirect("/auth/login")
     })
+}
+
+export const forgot_password_c = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        next(err)
+    }
 }

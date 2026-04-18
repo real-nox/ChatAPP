@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "nodemon app.js"
+    "test": "nodemon app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Rayane",
   "license": "ISC",

@@ -2,7 +2,7 @@ import bcrypt from "bcrypt"
 import * as auth_repository from "../repositories/user.repository.js"
 
 export const register_s = async (newUserInfo) => {
-    let { username, email, pwd } = newUserInfo
+    let { display_name, username, email, pwd } = newUserInfo
 
     const FoundUsername = await auth_repository.getUsernames(username)
 
@@ -17,7 +17,7 @@ export const register_s = async (newUserInfo) => {
     const salt = bcrypt.genSaltSync()
     pwd = bcrypt.hashSync(pwd, salt)
 
-    const result = await auth_repository.addUser({ username, email, pwd })
+    const result = await auth_repository.addUser({ display_name, username, email, pwd })
 
     if (result)
         return { success: true, error: "" }
