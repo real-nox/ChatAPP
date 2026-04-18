@@ -136,18 +136,24 @@
     height: 50%;
     margin-bottom: 25px;
     align-items: center;
-    outline:rgb(255, 77, 77);
+    outline: rgb(255, 77, 77);
 }
 
 .container .formcontainer .pwdC #pwd {
     border: 0;
-    width: 90%;
+    width: 100%;
     margin-bottom: 0px;
-    outline: 0;
 }
 
 .container .formcontainer .pwdC .outlined {
     cursor: pointer;
+}
+
+.container .formcontainer .pwdC .outlinedc {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 10px;
 }
 
 .container .formcontainer .pwdC #pwd:focus {

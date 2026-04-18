@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Forgot Password</title>
     <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="../guest.css">
@@ -16,49 +16,42 @@
         <div class="center_container">
             <div class="container">
                 <div class="topcontainer">
-                    <h3>REGISTER</h3>
+                    <h3>FORGOT PASSWORD</h3>
                 </div>
                 <div class="formcontainer">
-                    <form method="post" action="/auth/register">
+                    <form method="post" action="get-user">
                         <div class="formElements">
-                            <% if (locals.error) {%>
+                            <% if (locals.error !=undefined) {%>
                                 <p id="error_p">
-                                    <%= locals.error ? locals.error : "" %>
+                                    <%= error %>
                                 </p>
                                 <% } %>
-                                    <input type="text" name="display_name" id="display_name" placeholder="Display name"
-                                        maxlength="20">
-
-                                    <label for="username" id="CheckingUsername"></label>
-                                    <input type="text" id="username" name="username" placeholder="Your Username"
-                                        maxlength="20">
-
-                                    <label for="email" id="CheckingEmail"></label>
-                                    <input type="email" name="email" id="email" placeholder="Your Email">
-
+                            <% if (locals.user == undefined) {%>
+                                    <input type="text" name="email" class="email" placeholder="Email">
+                                    <button type="submit">GET ACCOUNT</button>
+                            <% } else { %>
+                                    <input type="text" name="email" class="email" value="<%=locals.user.email%>">
                                     <label for="pwd" id="CheckingPWD"></label>
                                     <div class="pwdC">
                                         <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
                                         <div class="outlinedc">
                                             <span class="material-symbols-outlined outlined" id="eye">visibility_off</span>
-                                        </div> 
+                                        </div>                             
                                     </div>
 
                                     <label for="passwordCheck" id="CheckingPassword"></label>
                                     <input type="password" id="passwordCheck" name="passwordCheck" maxlength="20"
                                         placeholder="Repeat your password">
-
-                                    <button id="createBTN" type="submit" disabled>CREATE AN ACCOUNT</button>
-                                    <div class="secondarybtns reg">
-                                        <a id="loginbtn" href="/auth/login">Login</a>
-                                    </div>
+                                    <button type="submit">CHANGE PASSWORD</button>
+                            <% } %>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <script src="../register.js"></script>
+        <script src="../login.js"></script>
+
 </body>
 
 </html>

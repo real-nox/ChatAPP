@@ -48,6 +48,18 @@ export const getUserById = async (userId) => {
     }
 }
 
+export const getUserByEmail = async (email) => {
+    try {
+        const result = await pool.query("select * from users where email = $1", [email])
+
+        if (result?.rowCount > 0)
+            return result.rows[0]
+        return false
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getUserViaUsername = async (username) => {
     try {
         const result = await pool.query("select * from users where username= $1", [username])
@@ -69,5 +81,17 @@ export const addUser = async (user_info) => {
         return false
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const updatePwdUser = async (user_id, new_pwd) => {
+    try {
+        const result = await pool.query("update users set password = $1 where id = $2", [new_pwd, user_id])
+
+        if (result?.rowCount > 0)
+            return true
+        return false
+    } catch (err) {
+        console.log(err)
     }
 }

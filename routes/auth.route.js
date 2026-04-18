@@ -20,10 +20,12 @@ authR.get("/login", ifLogged, (req, res) => {
 
 authR.post("/login", auth_controller.login_c)
 
+authR.get("/logout", auth_controller.logout_c)
+
 authR.get("/forgot-password", ifLogged, (req, res) => {
     res.render("pages/forgotpass")
 })
 
-authR.post("/forgot-password", auth_controller.forgot_password_c)
+authR.post("/get-user", auth_controller.user_get_c)
 
 export default authR

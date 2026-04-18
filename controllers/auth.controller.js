@@ -29,7 +29,7 @@ export const login_c = async (req, res, next) => {
     try {
         const { success, error, user = null } = await auth_service.login_s({ user_email, pwd })
 
-        if (!success) return res.render("guest/login", { error })
+        if (!success) return res.render("pages/login", { error })
 
         req.session.userId = user.id
         return res.redirect("/")
@@ -41,14 +41,44 @@ export const login_c = async (req, res, next) => {
 export const logout_c = async (req, res, next) => {
     req.session.destroy((err) => {
         if (err) return next(err)
-            res.clearCookie("connect.sid")
-            return res.redirect("/auth/login")
+        res.clearCookie("connect.sid")
+        return res.redirect("/auth/login")
     })
 }
 
 export const forgot_password_c = async (req, res, next) => {
     try {
-        
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const user_get_c = async (req, res, next) => {
+    try {
+        const { email, pwd = null, passwordCheck = null } = req?.body
+
+        if (pwd == null) {
+            if (!email)
+                return res.render("pages/forgotpass", { error: "Complete the form" })
+
+            const { success, error, user = null } = await auth_service.fetchUserByEmail(email)
+
+            if (!success)
+                return res.render("pages/forgotpass", { error })
+
+            return res.render("pages/forgotpass", { user })
+        }
+
+        if (pwd !== passwordCheck)
+            return res.render("pages/forgotpass", { error: "Passwords are not matching!" })
+
+        const { success, error } = await auth_service.changeUserPWD(email, pwd)
+
+        if (!success)
+            return res.render("pages/forgotpass", { error })
+
+        return res.redirect("/auth/login")
     } catch (err) {
         next(err)
     }

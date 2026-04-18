@@ -50,3 +50,33 @@ export const fetchUser = async (userId) => {
 
     return { success: true, error: "", user: User }
 }
+
+export const fetchUserByEmail = async (email) => {
+    let User = await auth_repository.getUserByEmail(email)
+
+    if (!User)
+        return { success: false, error: "User is not found!" }
+
+    User = { id: User.id, email: User.email, pwd: User.password }
+    return { success: true, error: "", user: User }
+}
+
+export const changeUserPWD = async (email, new_pwd) => {
+    const User = await auth_repository.getUserByEmail(email)
+
+    if (!User)
+        return { success: false, error: "User is not found!" }
+
+    if (User.password && bcrypt.compareSync(new_pwd, User.password)) {
+        return { success: false, error: "Use another password." }
+    }
+
+    const salt = bcrypt.genSaltSync()
+    const newPWD = bcrypt.hashSync(new_pwd, salt)
+    const changePWD = await auth_repository.updatePwdUser(User.id, newPWD)
+
+    console.log(changePWD)
+    if (changePWD)
+        return { success: true, error: "" } 
+    return { success: false, error: "Could not change password." }
+}
