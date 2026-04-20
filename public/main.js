@@ -1,5 +1,8 @@
 let current_room;
 
+let writingTimeout = null
+let writingInterval = null
+
 window.addEventListener("load", async (ev) => {
     const { success, error, friends } = await getListFriends()
     const container = document.getElementById("listFriendsDMs")
@@ -9,7 +12,6 @@ window.addEventListener("load", async (ev) => {
 
     let div = ""
     for (const friend of friends) {
-        socket.emit()
         div += `<div class="friendItem" id="friendItem" data-id="${friend.id}">
                     <button class="friendChannelBTN" id="friendChannelBTN" data-id="${friend.id}">${friend.username}</button>
                     <div class="presence red"></div>
@@ -58,6 +60,12 @@ document.addEventListener("submit", async (ev) => {
 
     if (ev.target.classList.contains("messagesend")) {
         ev.preventDefault()
+
+        clearInterval(writingInterval)
+        clearTimeout(writingTimeout)
+
+        document.getElementById("writingp").innerText = ""
+
         const content = document.getElementById("msg").value
         if (!content) return
 
@@ -66,25 +74,9 @@ document.addEventListener("submit", async (ev) => {
             content: content
         })
 
-        const message = document.getElementById("chat")
+        socket.emit("stopWriting", { roomName: current_room })
 
         document.getElementById("msg").value = ""
-
-        let div = `<div class='messagebubble right'>
-                    <div class="messageContainer">
-                        <div class="msgUser">
-                            <p><strong>${current_user_username}</strong></p>
-                        </div>
-                        <div class="msgContent" id="msgContent">
-                            <p>${content}</p>
-                        </div >
-                        <div class="msgTIME">
-                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
-                        </div>
-                    </div >
-                </div >`
-
-        message.innerHTML += div
     }
 })
 
@@ -134,6 +126,7 @@ document.addEventListener("click", async (ev) => {
         try {
             const req_id = ev.target.dataset.id
             await acceptPendingFReq(req_id)
+            window.location.reload()
         } catch (err) {
             console.log(err);
         }
@@ -170,10 +163,15 @@ document.addEventListener("click", async (ev) => {
                 return console.log(error);
 
             top.innerHTML = `<p>${friend.id} - ${friend.username}</p>`
-            msgsend.innerHTML = `<form id="messagesend" class="messagesend">
-                                    <input type="text" name="" id="msg">
-                                    <button type="submit"><span class="material-symbols-outlined">send</span></button>
-                                </form>`
+            msgsend.innerHTML = `<div class="writingDiv">
+                                    <p id="writingp"></p>
+                                </div>
+                                <div class="formsend">
+                                    <form id="messagesend" class="messagesend">
+                                        <input type="text" class="msg" name="messages" id="msg" autocomplete="false">
+                                        <button type="submit"><span class="material-symbols-outlined">send</span></button>
+                                    </form>
+                                </div>`
 
             current_room = [current_user_id, friend_id].sort().join("_")
             socket.emit("joinroom", current_room)
@@ -189,25 +187,63 @@ document.addEventListener("click", async (ev) => {
     }
 })
 
-socket.on("messageRecieve", ({ content, username }) => {
-    const center = document.getElementById("chat")
-
-    let div = `<div class='messagebubble left'>
-                    <div class="messageContainer">
-                        <div class="msgUser">
-                            <p><strong>${username}</strong></p>
-                        </div>
-                        <div class="msgContent" id="msgContent">
-                            <p>${content}</p>
-                        </div >
-                        <div class="msgTIME">
-                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}</p>
-                        </div>
-                    </div >
-                </div >`
-
-    center.innerHTML += div
+document.addEventListener("input", async (ev) => {
+    if (ev.target.classList.contains("msg"))
+        socket.emit("writing", { roomName: current_room })
 })
+
+// Friend Status
+
+socket.on("friendOnline", ({ userId }) => {
+
+    document.querySelectorAll(".friendItem").forEach(friend => {
+        if (friend.dataset.id == userId) {
+            friend.querySelector(".presence").classList.remove("red")
+            friend.querySelector(".presence").classList.add("green")
+        }
+    })
+})
+
+socket.on("friendOffline", ({ userId }) => {
+
+    document.querySelectorAll(".friendItem").forEach(friend => {
+        if (friend.dataset.id == userId) {
+            friend.querySelector(".presence").classList.remove("green")
+            friend.querySelector(".presence").classList.add("red")
+        }
+    })
+})
+
+// Friend writing states
+
+socket.on("friendWriting", ({ username }) => {
+    const writingp = document.getElementById("writingp")
+    if (writingp) writingp.innerText = `${username} is Writing...`
+
+    clearInterval(writingInterval)
+    clearTimeout(writingTimeout)
+
+    let dots = 3
+    writingInterval = setInterval(() => {
+        dots = (dots % 3) + 1
+        if (writingp)
+            writingp.innerText = `${username} is Writing${".".repeat(dots)}`
+    }, 500);
+
+    writingTimeout = setTimeout(() => {
+        if (writingp) writingp.innerText = ""
+    }, 7000)
+})
+
+socket.on("friendStopWriting", ({ username }) => {
+    const writingp = document.getElementById("writingp")
+    if (writingp) writingp.innerText = ""
+
+    clearInterval(writingInterval)
+    clearTimeout(writingTimeout)
+})
+
+// Messages
 
 socket.on("loadMessages", async ({ messages }) => {
     const room = document.getElementById("friendChannel")
@@ -226,14 +262,16 @@ socket.on("loadMessages", async ({ messages }) => {
         let div = ""
         let downdiv = seen ? "Seen" : "Not seen"
         if (sender_id == current_user_id) {
-                div = "<div class='messagebubble right'>"
+            if (!seen)
+                div = `<div class='messagebubble right' data-id="${id}">`
+            else
+                div = `<div class='messagebubble right seen' data-id="${id}">`
         } else {
             if (!seen) {
-                div = "<div class='messagebubble left'>"
-                console.log(id)
-                await seenMessageId(id)
+                div = `<div class='messagebubble left' data-id="${id}">`
+                socket.emit("readMessage", { roomName: current_room, message_id: id })
             } else {
-                div = "<div class='messagebubble left seen'>"
+                div = `<div class='messagebubble left seen' data-id="${id}">`
             }
         }
 
@@ -255,28 +293,69 @@ socket.on("loadMessages", async ({ messages }) => {
     }
 })
 
-socket.on("friendOnline", ({ userId }) => {
+socket.on("messageRecieve", ({ content, username, id }) => {
+    const center = document.getElementById("chat")
 
-    console.log(userId)
-    document.querySelectorAll(".friendItem").forEach(friend => {
-        if (friend.dataset.id == userId) {
-            console.log("target", friend)
-            friend.querySelector(".presence").classList.remove("red")
-            friend.querySelector(".presence").classList.add("green")
-        }
-    })
+    let div = `<div class='messagebubble left' data-id='${id}'>
+                    <div class="messageContainer">
+                        <div class="msgUser">
+                            <p><strong>${username}</strong></p>
+                        </div>
+                        <div class="msgContent" id="msgContent">
+                            <p>${content}</p>
+                        </div >
+                        <div class="msgTIME">
+                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })} - Not seen</p>
+                        </div>
+                    </div >
+                </div >`
+
+    center.innerHTML += div
+
+    if (current_room)
+        socket.emit("readMessage", { roomName: current_room, message_id: id })
 })
 
-socket.on("friendOffline", ({ userId }) => {
+socket.on("loadMSG", ({ content, username, id }) => {
+    const center = document.getElementById("chat")
 
-    console.log(userId)
-    document.querySelectorAll(".friendItem").forEach(friend => {
-        if (friend.dataset.id == userId) {
-            console.log("target", friend)
-            friend.querySelector(".presence").classList.remove("green")
-            friend.querySelector(".presence").classList.add("red")
-        }
-    })
+    let div = `<div class='messagebubble right' data-id='${id}'>
+                    <div class="messageContainer">
+                        <div class="msgUser">
+                            <p><strong>${current_user_username}</strong></p>
+                        </div>
+                        <div class="msgContent" id="msgContent">
+                            <p>${content}</p>
+                        </div >
+                        <div class="msgTIME">
+                            <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })} - Not seen</p>
+                        </div>
+                    </div >
+                </div >`
+
+    center.innerHTML += div
+})
+
+// Seen
+
+socket.on("messageSeen", ({ message_id }) => {
+    const message = document.querySelector(`.messagebubble[data-id="${message_id}"]`)
+
+    if (message) {
+        message.classList.add("seen")
+        const down = message.querySelector(".msgTIME p")
+        down.innerText = down.innerText.replace("Not seen", "Seen")
+    }
+})
+
+socket.on("MarkMessageSeen", ({ message_id }) => {
+    const message = document.querySelector(`.messagebubble[data-id="${message_id}"]`)
+
+    if (message) {
+        message.classList.add("seen")
+        const down = message.querySelector(".msgTIME p")
+        down.innerText = down.innerText.replace("Not seen", "Seen")
+    }
 })
 
 async function getListFriends() {
@@ -337,20 +416,5 @@ async function getFriendInfo(friend_id) {
         return data
     } catch (err) {
         console.error(err);
-    }
-}
-
-async function seenMessageId(message_id) {
-    try {
-        console.log("here ofc")
-        const result = await fetch(`/messages/${message_id}/seen`, { 
-            method : 'PATCH',
-        })
-
-        const data = await result.json()
-
-        console.log(data)
-    } catch (err) {
-        console.log(err)
     }
 }

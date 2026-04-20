@@ -82,7 +82,6 @@
 }
 
 .friendsReqList .listFriends .friendtemplate {
-    background-color: rgb(204, 204, 204);
     display: flex;
     justify-content: space-between;
     width: 100%;

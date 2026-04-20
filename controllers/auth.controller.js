@@ -46,14 +46,6 @@ export const logout_c = async (req, res, next) => {
     })
 }
 
-export const forgot_password_c = async (req, res, next) => {
-    try {
-
-    } catch (err) {
-        next(err)
-    }
-}
-
 export const user_get_c = async (req, res, next) => {
     try {
         const { email, pwd = null, passwordCheck = null } = req?.body
