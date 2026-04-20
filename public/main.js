@@ -178,10 +178,6 @@ document.addEventListener("click", async (ev) => {
             console.error(err)
         }
     }
-
-    if (ev.target.classList.contains("closeSettings")) {
-        document.getElementById("settingsContainer").classList.remove("show")
-    }
 })
 
 document.addEventListener("input", async (ev) => {

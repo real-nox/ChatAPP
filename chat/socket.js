@@ -72,7 +72,6 @@ export function initSocket(io) {
             
             let { id = null } = await saveMessage(socket.conversation_id, user_id, content)
             socket.to(roomName).emit("messageRecieve", { content, username, id })
-            console.log("here too")
             socket.emit("loadMSG", { content, username, id })
         })
 
