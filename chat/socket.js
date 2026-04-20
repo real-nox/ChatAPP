@@ -1,4 +1,4 @@
-import { getConversation, getMessages, saveMessage } from "../repositories/chat.repository.js"
+import { getConversation, getMessages, saveMessage, setSeenMsg } from "../repositories/chat.repository.js"
 import { listF } from "../repositories/friends.repository.js"
 import { getUserById } from "../repositories/user.repository.js"
 
@@ -15,17 +15,19 @@ export function initSocket(io) {
         onlineUsers[user_id] = socket.id
         console.log(`[LiveServer] Connection established for user ${user_id}!`)
 
-        if (friends) {
-            friends.forEach(friend => {
-                const friendSocket_id = onlineUsers[friend.id]
-                if (friendSocket_id) {
-                    socket.to(friendSocket_id).emit("friendOnline", { userId: user_id })
-                    socket.emit("friendOnline", { userId: friend.id })
-                } else {
-                    socket.emit("friendOffline", { userId: friend.id })
-                }
-            })
-        }
+        const OnlineInter = setInterval(() => {
+            if (friends) {
+                friends.forEach(friend => {
+                    const friendSocket_id = onlineUsers[friend.id]
+                    if (friendSocket_id) {
+                        socket.to(friendSocket_id).emit("friendOnline", { userId: user_id })
+                        socket.emit("friendOnline", { userId: friend.id })
+                    } else {
+                        socket.emit("friendOffline", { userId: friend.id })
+                    }
+                })
+            }
+        }, 10000);
 
         socket.on("disconnect", () => {
 
@@ -37,8 +39,10 @@ export function initSocket(io) {
                 })
             }
 
+            clearInterval(OnlineInter)
+
             delete onlineUsers[user_id]
-            console.log(user_id, "Disconnected.")
+            console.log("[LiveServer] Disconnected " + user_id)
         })
 
         socket.on("joinroom", async (roomName) => {
@@ -57,8 +61,33 @@ export function initSocket(io) {
         })
 
         socket.on("messageSend", async ({ roomName, content }) => {
-            await saveMessage(socket.conversation_id, user_id, content)
-            socket.to(roomName).emit("messageRecieve", { content, username })
+            if (!socket.conversation_id || socket.conversation_id == undefined) {
+                const [user1_id, user2_id] = roomName.split("_")
+                const conversation_id = (await getConversation(user1_id, user2_id)).id
+                if (!conversation_id)
+                    return
+
+                socket.conversation_id = conversation_id
+            }
+            
+            let { id = null } = await saveMessage(socket.conversation_id, user_id, content)
+            socket.to(roomName).emit("messageRecieve", { content, username, id })
+            console.log("here too")
+            socket.emit("loadMSG", { content, username, id })
+        })
+
+        socket.on("readMessage", async ({ roomName, message_id }) => {
+            await setSeenMsg(message_id);
+            socket.to(roomName).emit("messageSeen", { message_id })
+            socket.emit("MarkMessageSeen", { message_id })
+        })
+
+        socket.on("writing", ({ roomName }) => {
+            socket.to(roomName).emit("friendWriting", { username })
+        })
+
+        socket.on("stopWriting", ({ roomName }) => {
+            socket.to(roomName).emit("friendStopWriting", { username })
         })
     })
 }

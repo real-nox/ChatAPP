@@ -55,10 +55,10 @@ export const getConversation = async (user1_id, user2_id) => {
 export const saveMessage = async (conv_id, user_id, content) => {
     try {
         console.log(conv_id)
-        const result = await pool.query("insert into messages (sender_id, conversation_id, content) values ($1, $2, $3)", [user_id, conv_id, content])
+        const result = await pool.query("insert into messages (sender_id, conversation_id, content) values ($1, $2, $3) returning id", [user_id, conv_id, content])
 
         if (result.rowCount > 0)
-            return true
+            return result.rows[0]
         return false
     } catch (err) {
         console.log(err)
@@ -81,7 +81,6 @@ export const getMessages = async (conv_id) => {
 export const setSeenMsg = async (message_id) => {
         try {
 
-            console.log(message_id)
         const result = await pool.query("update messages set seen = 1 where id = $1", [message_id])
 
         if (result.rowCount > 0) {
