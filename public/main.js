@@ -29,10 +29,10 @@ document.addEventListener("submit", async (ev) => {
     if (ev.target.classList.contains("addFriendForm")) {
         ev.preventDefault()
 
-        const input_Username = document.getElementById("usernameInp")
+        const input_Username = document.getElementById("usernameInp").value
         const label = document.getElementById("labelFriendInp")
 
-        if (!input_Username.value || input_Username.value?.length == 0) {
+        if (!SanitizeInput(input_Username) || SanitizeInput(input_Username)?.length == 0) {
             label.textContent = "Fill in the form"
             return
         }
@@ -41,7 +41,7 @@ document.addEventListener("submit", async (ev) => {
             const result = await fetch("/friends/requests/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ friendUsername: input_Username.value })
+                body: JSON.stringify({ friendUsername: SanitizeInput(input_Username) })
             })
 
             const data = await result.json()
@@ -51,10 +51,10 @@ document.addEventListener("submit", async (ev) => {
                 label.textContent = data.error
             } else {
                 label.style.color = "green"
-                label.textContent = `Friend request sent to ${input_Username.value}`
+                label.textContent = `Friend request sent to ${SanitizeInput(input_Username)}`
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -71,7 +71,7 @@ document.addEventListener("submit", async (ev) => {
 
         socket.emit("messageSend", {
             roomName: current_room,
-            content: content
+            content: SanitizeInput(content)
         })
 
         socket.emit("stopWriting", { roomName: current_room })
@@ -128,7 +128,7 @@ document.addEventListener("click", async (ev) => {
             await acceptPendingFReq(req_id)
             window.location.reload()
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -138,7 +138,7 @@ document.addEventListener("click", async (ev) => {
             await declinePendingFReq(req_id)
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -156,11 +156,10 @@ document.addEventListener("click", async (ev) => {
 
             const friend_id = ev.target.dataset.id
 
-            console.log(friend_id)
             const { success, error, friend } = await getFriendInfo(friend_id)
 
             if (!success)
-                return console.log(error);
+                return console.warn(error);
 
             top.innerHTML = `<p>${friend.id} - ${friend.username}</p>`
             msgsend.innerHTML = `<div class="writingDiv">
@@ -175,10 +174,8 @@ document.addEventListener("click", async (ev) => {
 
             current_room = [current_user_id, friend_id].sort().join("_")
             socket.emit("joinroom", current_room)
-            console.log(socket)
-            console.log("Open chat with ", friend_id, "in room", current_room, socket.id)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -281,7 +278,7 @@ socket.on("loadMessages", async ({ messages }) => {
                         <p><strong>${username}</strong></p>
                     </div>
                     <div class="msgContent" id="msgContent">
-                        <p>${content}</p>
+                        <p>${SanitizeInput(content)}</p>
                     </div >
                     <div class="msgTIME">
                         <p>${new Date(created_at).toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })}- ${downdiv}</p>
@@ -302,7 +299,7 @@ socket.on("messageRecieve", ({ content, username, id }) => {
                             <p><strong>${username}</strong></p>
                         </div>
                         <div class="msgContent" id="msgContent">
-                            <p>${content}</p>
+                            <p>${SanitizeInput(content)}</p>
                         </div >
                         <div class="msgTIME">
                             <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })} - Not seen</p>
@@ -325,7 +322,7 @@ socket.on("loadMSG", ({ content, username, id }) => {
                             <p><strong>${current_user_username}</strong></p>
                         </div>
                         <div class="msgContent" id="msgContent">
-                            <p>${content}</p>
+                            <p>${SanitizeInput(content)}</p>
                         </div >
                         <div class="msgTIME">
                             <p>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: '2-digit' })} - Not seen</p>
@@ -381,7 +378,7 @@ async function getPendingFReq() {
 
         return data
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -392,7 +389,7 @@ async function acceptPendingFReq(req_id) {
             headers: { "Content-Type": "application/json" }
         })
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 }
 
@@ -403,7 +400,7 @@ async function declinePendingFReq(req_id) {
             headers: { "Content-Type": "application/json" }
         })
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 }
 
@@ -417,4 +414,11 @@ async function getFriendInfo(friend_id) {
     } catch (err) {
         console.error(err);
     }
+}
+
+//Like SQL injection but in HTML (XSS)
+function SanitizeInput(input) {
+    const div = document.createElement("div")
+    div.appendChild(document.createTextNode(input))
+    return div.innerHTML
 }
