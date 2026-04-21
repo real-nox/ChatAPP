@@ -31,7 +31,6 @@ eye.addEventListener("mouseleave", () => {
 const username_error = document.getElementById("CheckingUsername")
 
 function CheckValid() {
-    console.log(valid)
     if (valid.password && valid.pwdcheck && valid.username) {
         document.getElementById("createBTN").disabled = false
     } else {

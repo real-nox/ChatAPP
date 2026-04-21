@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="shortcut icon" href="../icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="../guest.css">
 </head>
 
@@ -28,10 +29,14 @@
                                 <% } %>
                                     <input type="text" name="user_email" placeholder="Email/Username">
                                     <div class="pwdC">
-                                        <input type="password" id="pwd" name="pwd" placeholder="Password" maxlength="20">
-                                        <div class="outlinedc">
-                                            <span class="material-symbols-outlined outlined" id="eye">visibility_off</span>
-                                        </div> 
+                                        <div class="pwdplace">
+                                            <input type="password" id="pwd" name="pwd" placeholder="Password"
+                                                maxlength="20">
+                                            <div class="outlinedc">
+                                                <span class="material-symbols-outlined outlined"
+                                                    id="eye">visibility_off</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <button type="submit">LOGIN</button>
                                     <div class="secondarybtns">
@@ -44,7 +49,7 @@
             </div>
         </div>
 
-        <script src="../login.js"></script>
+        <script src="../js/login.js"></script>
 </body>
 
 </html>
