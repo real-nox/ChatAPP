@@ -4,8 +4,46 @@
     display: flex;
 }
 
+.window[data-theme=dark] {
+    --sidebars-backgroundc: #0F172A;
+    --center-backgroundc: #151515;
+    --hover-sidebars-backgroundc: #080d18;
+    --text-color: white;
+    --friends-list-backgroundc: #1E293B;
+    --friend-box-backgroundc: #1E293B;
+
+    --reciever-notr-backgroundc: #2154a8;
+    --sender-notr-backgroundc: #4c71ad;
+
+    --reciever-r-backgroundc: #0642a3;
+    --sender-r-backgroundc: #0056e0;
+
+    --bottom-text-color: rgb(199, 199, 199);
+
+    --chat-backgroundc: rgb(24, 24, 24);
+}
+
+.window[data-theme=light] {
+    --sidebars-backgroundc: #ebebeb;
+    --center-backgroundc: #dfdfdf;
+    --hover-sidebars-backgroundc: #fafafa;
+    --text-color: rgb(23, 23, 23);
+    --friends-list-backgroundc: #bbbdc0;
+    --friend-box-backgroundc: #a7a9ad;
+
+    --reciever-notr-backgroundc: #9279ff;
+    --sender-notr-backgroundc: #ab98ff;
+
+    --reciever-r-backgroundc: #b4afd9;
+    --sender-r-backgroundc: #cbc8ff;
+
+    --bottom-text-color: rgb(239, 239, 239);
+
+    --chat-backgroundc: rgb(242, 242, 242);
+}
+
 .window .leftList {
-    background-color: #0F172A;
+    background-color: var(--sidebars-backgroundc);
     height: 100%;
     width: 16%;
 
@@ -23,7 +61,7 @@
 
 .leftList .insideList .topPart {
     text-align: center;
-    color: white;
+    color: var(--text-color);
 }
 
 .leftList .addFriend {
@@ -51,20 +89,20 @@
 .leftList .addFriend form button {
     width: 100%;
     background-color: #4F46E5;
-    color: white;
+    color: var(--text-color);
     border: 2px solid #1d4585;
 }
 
 .leftList .addFriend form input {
     height: 50%;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     border: 0.5px solid white;
     padding-left: 10px;
 }
 
 .window .friendsReqList {
-    background-color: #0F172A;;
+    background-color: var(--friends-list-backgroundc);
     height: 100%;
     width: 15%;
 
@@ -78,25 +116,25 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    color: white;
+    color: var(--text-color);
 }
 
 .friendsReqList .listFriends .friendtemplate {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    color: white;
+    color: var(--text-color);
     height: max-content;
 }
 
 .leftList .listFriendsDMs {
     height: 75vh;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--friends-list-backgroundc);
     overflow-y: auto;
 }
 
 .friendItem {
-    background-color: #1E293B;
+    background-color: var(--friend-box-backgroundc);
     display: flex;
     align-items: center;
     transition: background-color 0.5s ease;
@@ -111,7 +149,7 @@
     width: 80%;
     height: 4vh;
     border: 0;
-    color: white;
+    color: var(--text-color);
     cursor: pointer;
     background-color: transparent;
 }
@@ -132,7 +170,7 @@
 }
 
 .friendChannel {
-    background-color: #F8FAFC;
+    background-color: var(--center-backgroundc);
     display: flex;
     flex-direction: column;
 
@@ -141,8 +179,8 @@
 
 .friendChannel .top.load {
     height: 8%;
-    background-color: #0F172A;
-    color: white;
+    background-color: var(--sidebars-backgroundc);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -151,7 +189,7 @@
 
 .friendChannel .chat.load {
     height: 82%;
-    background-color: #ebebeb;
+    background-color: var(--chat-backgroundc);
 }
 
 .friendChannel .msgsend.load {
@@ -164,7 +202,7 @@
 }
 
 .friendChannel .msgsend.load .formsend {
-    background-color: #0F172A;
+    background-color: var(--sidebars-backgroundc);
     width: 100%;
     height: 80%;
     display: flex;
@@ -191,7 +229,7 @@
 
 .friendChannel .msgsend.load .messagesend button {
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     border: 0;
 }
 
@@ -200,7 +238,7 @@
     height: 100%;
     border: 0;
     cursor: pointer;
-    color: rgb(255, 255, 255);
+    color: white;
     background-color: rgb(88, 88, 88);
     font-size: 15px;
 }
@@ -265,32 +303,32 @@
 }
 
 .friendChannel .messagebubble.right .messageContainer {
-    background-color: #4F46E5;
+    background-color: var(--sender-notr-backgroundc);
 }
 
 .friendChannel .messagebubble.left .messageContainer {
-    background-color: #ffffff;
-    color: black;
+    background-color: var(--reciever-notr-backgroundc);
+    color: var(--text-color);
 }
 
 .friendChannel .messagebubble.left.seen .messageContainer {
-    background-color: rgb(118, 151, 118);
-    color: white;
+    background-color: var(--reciever-r-backgroundc);
+    color: var(--text-color);
 }
 
 .friendChannel .messagebubble.right.seen .messageContainer {
-    background-color: #04074d;
-    color: white;
+    background-color: var(--sender-r-backgroundc);
+    color: var(--text-color);
 }
 
 .friendChannel .messagebubble.right .messageContainer,
 .friendChannel .messagebubble.right .msgContent p {
-    color: white
+    color: var(--text-color);
 }
 
 .friendChannel .messagebubble.left .messageContainer p,
 .friendChannel .messagebubble.left .msgContent p {
-    color: black;
+    color: var(--text-color);
 }
 
 .friendChannel .messagebubble.left .msgUser p,
@@ -302,9 +340,5 @@
 
 .friendChannel .messagebubble.left .msgTIME p,
 .friendChannel .messagebubble.right .msgTIME p {
-    color: rgba(194, 194, 194, 0.438);
-}
-
-.leftOptions .item:hover {
-    background-color: rgb(37, 37, 37);
+    color: var(--bottom-text-color);
 }

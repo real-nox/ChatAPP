@@ -6,7 +6,21 @@
     background-color: black;
     position: absolute;
 
-    transition: opacity 0.5s ease, background-color 0.8s ease;
+    transition: all 0.5s ease;
+}
+
+.settingsContainer[data-theme=dark] {
+    --sidebars-backgroundc: #0F172A;
+    --center-backgroundc: #151515;
+    --hover-sidebars-backgroundc: #080d18;
+    --text-color: white;
+}
+
+.settingsContainer[data-theme=light] {
+    --sidebars-backgroundc: #ebebeb;
+    --center-backgroundc: #dfdfdf;
+    --hover-sidebars-backgroundc: #fafafa;
+    --text-color: rgb(23, 23, 23);
 }
 
 .settingsContainer.show {
@@ -21,25 +35,26 @@
 }
 
 .settingsContainer.show .containerSetting {
-    background-color: rgb(37, 37, 37);
+    background-color: var(--center-backgroundc);
     width: 85%;
     height: 85%;
-    border-radius: 15px;
+    border-radius: 10px;
+    z-index: 10;
 }
 
 .settingsContainer.show .containerSetting .topsection {
     height: 5%;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    background-color: rgb(44, 44, 44);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: var(--sidebars-backgroundc)
 }
 
 .settingsContainer.show .containerSetting .leftOptions {
     width: 20%;
     height: 95%;
     overflow-y: auto;
-    background-color: rgb(49, 49, 49);
-    border-bottom-left-radius: 15px;
+    background-color: var(--sidebars-backgroundc);
+    border-bottom-left-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -48,9 +63,23 @@
 .settingsContainer.show .containerSetting .leftOptions .item {
     height: 7%;
     width: 100%;
-    color: rgb(255, 255, 255);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.settingsContainer.show .containerSetting .leftOptions .item:hover {
+    background-color: var(--hover-sidebars-backgroundc);
+}
+
+.settingsContainer.show .containerSetting .settingsPart {
+    width: 80%;
+}
+
+.settingsContainer.show .containerSetting .set {
+    height: 100%;
+    display: flex;
 }
