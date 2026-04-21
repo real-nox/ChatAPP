@@ -60,7 +60,7 @@
     border: 3px solid rgb(39, 39, 39);
 
     width: 450px;
-    max-height: 450px;
+    max-height: 500px;
 
     display: flex;
     flex-direction: column;
@@ -100,7 +100,7 @@
 .container .formElements input {
     width: 80%;
     height: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     border: 2px solid #E2E8F0;
     outline: 0;
 }
@@ -130,13 +130,22 @@
 }
 
 .container .formcontainer .pwdC {
-    width: 81%;
+    width: 81.8%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.container .formcontainer .pwdC .pwdplace {
+
     display: flex;
     border: 2px solid #E2E8F0;
-    height: 50%;
-    margin-bottom: 25px;
+    height: 20%;
     align-items: center;
     outline: rgb(255, 77, 77);
+    margin-bottom: 5px;
+    border: 2px solid #E2E8F0;
 }
 
 .container .formcontainer .pwdC #pwd {
@@ -158,6 +167,16 @@
 
 .container .formcontainer .pwdC #pwd:focus {
     border: 0;
+}
+
+.container .formcontainer .pwdC .checkersPWD .requirement {
+    font-size: small;
+    color: gray;
+}
+
+.container .formcontainer .pwdC .checkersPWD .requirement.done {
+    text-decoration: line-through;
+    color: rgb(49, 52, 118);
 }
 
 .container .formElements #error_p {
