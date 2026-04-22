@@ -77,6 +77,41 @@ export const changeUserPWD = async (email, new_pwd) => {
 
     console.log(changePWD)
     if (changePWD)
-        return { success: true, error: "" } 
+        return { success: true, error: "" }
     return { success: false, error: "Could not change password." }
+}
+
+export const getUserTheme_s = async (userid) => {
+    if (!userid)
+        return { success: false, error: "User ID was not provided!" }
+
+    let user = await auth_repository.getUserById(userid)
+
+    if (!user)
+        return { success: false, error: "User is not found!" }
+
+    const theme = await auth_repository.getUserTheme(userid)
+
+    if (theme)
+        return { success: true, theme: theme, error: "" }
+    return { success: false, error: "Could not retrieve user's theme." }
+}
+
+export const setUserTheme_s = async (userid, theme) => {
+    if (!userid)
+        return { success: false, error: "User ID was not provided!" }
+
+    if (!theme)
+        return { success: false, error: "Theme was not provided!" }
+
+    let user = await auth_repository.getUserById(userid)
+
+    if (!user)
+        return { success: false, error: "User is not found!" }
+
+    const result = await auth_repository.setUserTheme(userid, theme)
+
+    if (result)
+        return { success: true, error: "" }
+    return { success: false, error: "Could not retrieve user's theme." }
 }

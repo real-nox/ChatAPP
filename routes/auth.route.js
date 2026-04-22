@@ -28,4 +28,8 @@ authR.get("/forgot-password", ifLogged, (req, res) => {
 
 authR.post("/get-user", auth_controller.user_get_c)
 
+authR.post("/theme", auth_controller.user_get_theme_c)
+
+authR.patch("/theme", auth_controller.user_set_theme_c)
+
 export default authR

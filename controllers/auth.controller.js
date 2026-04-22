@@ -75,3 +75,29 @@ export const user_get_c = async (req, res, next) => {
         next(err)
     }
 }
+
+export const user_get_theme_c = async (req, res, next) => {
+    try {
+        let user_id = req?.body?.user_id
+
+        let theme = await auth_service.getUserTheme_s(user_id)
+
+        return res.json(theme)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const user_set_theme_c = async (req, res, next) => {
+    try {
+        let user_id = req?.body?.user_id
+        let theme = req?.body?.theme
+        
+        let result = await auth_service.setUserTheme_s(user_id, theme)
+
+        console.log(result)
+        return res.json(result)
+    } catch (err) {
+        next(err)
+    }
+}

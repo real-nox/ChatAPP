@@ -95,3 +95,28 @@ export const updatePwdUser = async (user_id, new_pwd) => {
         console.log(err)
     }
 }
+
+export const getUserTheme = async (user_id) => {
+    try {
+        const result = await pool.query("select theme from users where id=$1", [user_id])
+
+        if (result?.rowCount > 0)
+            return result?.rows[0].theme
+        return false
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const setUserTheme = async (user_id, theme) => {
+    try {
+        const result = await pool.query("update users set theme = $2 where id = $1", [user_id, theme])
+
+        console.log(result.rowCount)
+        if (result?.rowCount > 0)
+            return true
+        return false
+    } catch (err) {
+        console.log(err)
+    }
+}
