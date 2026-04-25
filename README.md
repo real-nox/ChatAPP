@@ -75,7 +75,7 @@ Each feature (auth, friends, messages) has its own controller, service, and repo
 
 ---
 
-## 💡 What I Learned
+## What I Learned
 
 - Designing a **relational database schema** with foreign keys and constraints
 - Implementing **real-time bidirectional communication** with Socket.io rooms
