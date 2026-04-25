@@ -1,3 +1,8 @@
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
+![Socket.io](https://img.shields.io/badge/Socket.io-real--time-black)
+![License](https://img.shields.io/badge/license-ISC-lightgrey)
+
 # Chatty 💬
 
 A real-time chat application built with Node.js, Socket.io and PostgreSQL. Add friends, chat instantly, and see when they're online.
@@ -69,6 +74,15 @@ repositories/    → database queries
 Each feature (auth, friends, messages) has its own controller, service, and repository — keeping the codebase modular and maintainable.
 
 ---
+
+## 💡 What I Learned
+
+- Designing a **relational database schema** with foreign keys and constraints
+- Implementing **real-time bidirectional communication** with Socket.io rooms
+- Building a **3-layer architecture** (controllers / services / repositories) 
+  for separation of concerns
+- Handling **session-based authentication** securely with bcrypt and PostgreSQL
+- **Deploying a full-stack app** on Render with a cloud database (Neon)
 
 ## Getting Started
 
@@ -185,7 +199,7 @@ chatty/
 
 ## Author
 
-**real-nox** — [GitHub](https://github.com/real-nox)
+**real-nox (Rayane Sirri)** — [GitHub](https://github.com/real-nox)
 
 ---
 
