@@ -37,6 +37,7 @@ let theme = null
 window.addEventListener("load", async (ev) => {
     theme = localStorage.getItem("theme") || await getTheme()
 
+    console.log(theme)
     if (theme) {
         document.querySelector(".window").dataset.theme = theme
         document.querySelector("#settingsContainer").dataset.theme = theme
@@ -69,8 +70,9 @@ async function getTheme() {
             body: JSON.stringify({ user_id: current_user_id })
         })
 
-        const data = await result.json()
+        let data = await result.json()
 
+        data = data.theme
         return data
     } catch (err) {
     }

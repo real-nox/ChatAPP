@@ -168,12 +168,33 @@ document.addEventListener("click", async (ev) => {
                                 <div class="formsend">
                                     <form id="messagesend" class="messagesend">
                                         <input type="text" class="msg" name="messages" id="msg" autocomplete="false">
+                                        <button type="button" id="emojiToggle">😊</button>
                                         <button type="submit"><span class="material-symbols-outlined">send</span></button>
                                     </form>
+                                    <emoji-picker id="picker" style="display:none;"></emoji-picker>
                                 </div>`
 
             current_room = [current_user_id, friend_id].sort().join("_")
             socket.emit("joinroom", current_room)
+
+
+            //Emojis
+            const picker = document.getElementById('picker')
+            const toggle = document.getElementById("emojiToggle")
+
+            if (toggle) {
+                toggle.addEventListener("click", () => {
+                    picker.style.display = picker.style.display === "none" ? "block" : "none"
+                })
+            }
+
+            if (picker) {
+                picker.addEventListener('emoji-click', (event) => {
+                    console.log("here")
+                    document.getElementById('msg').value += event.detail.unicode
+                    picker.style.display = "none"
+                })
+            }
         } catch (err) {
             console.error(err)
         }

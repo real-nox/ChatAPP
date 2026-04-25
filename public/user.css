@@ -193,7 +193,7 @@
 }
 
 .friendChannel .msgsend.load {
-    background-color: #ebebeb;
+    background-color: var(--sidebars-backgroundc);
     height: 10%;
     display: flex;
     flex-direction: column;
@@ -202,7 +202,6 @@
 }
 
 .friendChannel .msgsend.load .formsend {
-    background-color: var(--sidebars-backgroundc);
     width: 100%;
     height: 80%;
     display: flex;
@@ -216,7 +215,7 @@
 }
 
 .friendChannel .msgsend.load .formsend .messagesend {
-    height: 50%;
+    height: 80%;
     width: 70%;
     display: flex;
     align-items: center;
@@ -225,6 +224,9 @@
 .friendChannel .msgsend.load .messagesend input {
     height: 60%;
     width: 65%;
+    background-color: rgba(224, 224, 224, 0.202);
+    color: var(--text-color);
+    font-size: medium;
 }
 
 .friendChannel .msgsend.load .messagesend button {
@@ -341,4 +343,22 @@
 .friendChannel .messagebubble.left .msgTIME p,
 .friendChannel .messagebubble.right .msgTIME p {
     color: var(--bottom-text-color);
+}
+
+emoji-picker {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    right: 25px;
+    width: 350px;
+    height: 350px;
+    z-index: 100;
+}
+
+.formsend {
+    position: relative;
+}
+
+.writingp {
+    color: var(--text-color);
 }
