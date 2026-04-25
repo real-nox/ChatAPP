@@ -3,11 +3,10 @@ import { Pool } from "pg"
 config({ quiet: true })
 
 const pool = new Pool({
-    host: process.env.host,
-    password: process.env.pwd,
-    database: "chatapp",
-    port: process.env.port,
-    user: process.env.user
+    connectionString: process.env.DB_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    }
 })
 
 async function LoadDB() {
