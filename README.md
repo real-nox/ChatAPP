@@ -3,6 +3,8 @@
 ![Socket.io](https://img.shields.io/badge/Socket.io-real--time-black)
 ![License](https://img.shields.io/badge/license-ISC-lightgrey)
 
+<img width="272" height="267" alt="Icon" src="https://github.com/user-attachments/assets/9eae5ee3-6af1-496a-8ea0-fec818f92135" />
+
 # Chatty 💬
 
 A real-time chat application built with Node.js, Socket.io and PostgreSQL. Add friends, chat instantly, and see when they're online.
