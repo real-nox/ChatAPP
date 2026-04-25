@@ -101,3 +101,17 @@ export const user_set_theme_c = async (req, res, next) => {
         next(err)
     }
 }
+
+export const user_Update = async (req, res, next) => {
+    try {
+        let user_id = req?.body?.user_id
+        let username = req?.body?.n_username
+        let display_name = req?.body?.n_display_name
+
+        let result = await auth_service.UpdateUserUsername_Display(user_id, display_name, username)
+
+        return res.json(result)
+    } catch (err) {
+        next(err)
+    }
+}

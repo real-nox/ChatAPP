@@ -112,11 +112,22 @@ export const setUserTheme = async (user_id, theme) => {
     try {
         const result = await pool.query("update users set theme = $2 where id = $1", [user_id, theme])
 
-        console.log(result.rowCount)
         if (result?.rowCount > 0)
             return true
         return false
     } catch (err) {
         console.log(err)
+    }
+}
+
+export const EditUser = async(user_id, username, display_name) => {
+    try {
+        const result = await pool.query("update users set display_name = $1, username = $2 where id = $3", [display_name, username, user_id])
+
+        if (result.rowCount > 0)
+            return true
+        return false
+    } catch (err) {
+        console.error(err)
     }
 }

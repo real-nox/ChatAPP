@@ -1,7 +1,7 @@
 .settingsContainer {
     z-index: -999;
     opacity: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: black;
     position: absolute;
@@ -51,7 +51,6 @@
 
 .settingsContainer.show .containerSetting .leftOptions {
     width: 20%;
-    height: 95%;
     overflow-y: auto;
     background-color: var(--sidebars-backgroundc);
     border-bottom-left-radius: 10px;
@@ -80,6 +79,36 @@
 }
 
 .settingsContainer.show .containerSetting .set {
-    height: 100%;
+    height: 95%;
     display: flex;
+}
+
+.settingsContainer.show .containerSetting .options {
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.settingsContainer.show .containerSetting .options.accountSet,
+.settingsContainer.show .containerSetting .options.apperanceSet {
+    display: none;
+    padding: 50px;
+}
+
+.settingsContainer.show .containerSetting .options.accountSet.show {
+    opacity: 1;
+    display: block;
+}
+
+.settingsContainer.show .containerSetting .options.apperanceSet.show {
+    opacity: 1;
+    display: flex;
+}
+
+/*Apperance*/
+.options.accountSet.show .user,
+.options.apperanceSet.show .apperance {
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
 }

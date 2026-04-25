@@ -4,7 +4,7 @@ const valid = {
     pwdcheck: false
 }
 
-const username_special_char_reg = /^[a-z1-Z0-9._-]+$/
+const username_special_char_reg = /^[a-zA-Z0-9._-]+$/
 const special_char_reg = /[!@#$%^&*()\-_=+\[\]{};':",.<>/?\\|]/
 const num_range_reg = /[0-9]/
 const cap_letters_char = /[A-Z]/

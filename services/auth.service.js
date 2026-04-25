@@ -115,3 +115,27 @@ export const setUserTheme_s = async (userid, theme) => {
         return { success: true, error: "" }
     return { success: false, error: "Could not retrieve user's theme." }
 }
+
+export const UpdateUserUsername_Display = async (user_id, display_name, username) => {
+    const user = await auth_repository.getUserById(user_id)
+
+    if (!user)
+        return { success: false, msg: "User ID was not provided!" }
+
+    if (!display_name)
+        return { success: false, msg: "Display name was not provided!" }
+
+    if (!username)
+        return { success: false, msg: "Username was not provided!" }
+
+    const found_username = await auth_repository.getUsernames(username)
+
+    if (found_username)
+        return { success: false, msg: "Username already used! Comme up with a new one!" }
+
+    const result = await auth_repository.EditUser(user_id, username, display_name)
+
+    if (result)
+        return { success: true, msg: "User profile has been updated!" }
+    return { success: false, msg: "User profile could not be updated, try again." }
+}
