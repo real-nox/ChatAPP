@@ -86,7 +86,7 @@ Each feature (auth, friends, messages) has its own controller, service, and repo
   for separation of concerns
 - Handling **session-based authentication** securely with bcrypt and PostgreSQL
 - **Deploying a full-stack app** on Render with a cloud database (Neon)
-- Use of docker, containerazing the app without need of downloading dependences the app will be working fine
+- Use of docker, containerizing the app without need of downloading dependencies, the app will be working as expected
 
 ## Getting Started
 
