@@ -1,6 +1,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
 ![Socket.io](https://img.shields.io/badge/Socket.io-real--time-black)
+![CI/CD](https://github.com/real-nox/ChatAPP/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-ISC-lightgrey)
 
 <img width="272" height="267" alt="Icon" src="https://github.com/user-attachments/assets/9eae5ee3-6af1-496a-8ea0-fec818f92135" />
@@ -85,6 +86,7 @@ Each feature (auth, friends, messages) has its own controller, service, and repo
   for separation of concerns
 - Handling **session-based authentication** securely with bcrypt and PostgreSQL
 - **Deploying a full-stack app** on Render with a cloud database (Neon)
+- Use of docker, containerazing the app without need of downloading dependences the app will be working fine
 
 ## Getting Started
 
@@ -94,6 +96,7 @@ Each feature (auth, friends, messages) has its own controller, service, and repo
 
 ### Installation
 
+## Without Docker
 ```bash
 # Clone the repository
 git clone https://github.com/real-nox/chatty.git
@@ -105,6 +108,28 @@ npm install
 # Create a .env file
 cp .env.example .env
 ```
+
+### Run the App
+
+```bash
+npm start
+```
+
+Visit `http://localhost:5500`
+
+## Using Docker
+```bash
+# Clone the repository
+git clone https://github.com/real-nox/chatty.git
+cd chatty
+
+# Create a .env file
+cp .env.example .env
+
+docker compose up --build
+```
+
+Visit `http://localhost:5500`
 
 ### Environment Variables
 
@@ -170,14 +195,6 @@ CREATE TABLE messages (
   created_at TIMESTAMP DEFAULT NOW()
 );
 ```
-
-### Run the App
-
-```bash
-npm start
-```
-
-Visit `http://localhost:5500`
 
 ---
 
