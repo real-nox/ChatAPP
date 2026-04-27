@@ -26,7 +26,7 @@ jobs:
       run: npm install
 
     - name: Build docker image
-      run: docker build .-t chatty .
+      run: docker build -t chatty .
 
   deploy:
     needs: build
