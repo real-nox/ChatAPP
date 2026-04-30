@@ -11,15 +11,17 @@
 }
 
 .Topbar .icon {
-    width: 70%;
+    min-width: 55%;
+    width: auto;
     padding-left: 10%;
     justify-content: start;
 }
 
 .Topbar .connection {
-    width: 22%;
+    min-width: 35%;
+    width: auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .Topbar .connection,
@@ -34,12 +36,27 @@
 }
 
 .Topbar .a {
-    color: white;
     text-decoration: none;
     transition: color 0.5s ease;
-    padding: 5px 10px;
-    border-radius: 15px;
-    background-color: #6366F1;
+    padding: 7px 20px;
+    border-radius: 7px;
+}
+
+.Topbar .a.infobtn {
+    color: rgb(255, 255, 255);
+    padding-left: 20px;
+}
+
+.Topbar .a.loginbtn {
+    border: 1px solid grey;
+    color: black;
+    background-color: #ffff;
+}
+
+.Topbar .a.registerbtn {
+    background-color: #0b58ff;
+    color: rgb(255, 255, 255);
+    font: bold;
 }
 
 .Topbar .a:hover {
@@ -249,4 +266,12 @@
 
 .container .formElements #forgotpass:hover {
     background-color: #272864;
+}
+
+.center {
+    height: 93vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

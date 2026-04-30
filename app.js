@@ -41,6 +41,15 @@ app.get("/", auth_m, async (req, res) => {
     res.render("home", { user: req.user })
 })
 
+app.use((req, res) => {
+    res.status(404).render("errors/404")
+})
+
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).render("errors/500")
+})
+
 httpServer.listen(5500, async () => {
     console.log("[SERVER] Running on http://localhost:5500")
     await LoadDB()
