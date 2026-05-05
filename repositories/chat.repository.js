@@ -37,7 +37,6 @@ export const getConversation = async (user1_id, user2_id) => {
             return result.rows[0]
 
         const { id: conv_id } = await CreateConversation_Get_id()
-        console.log(conv_id)
 
         if (!conv_id)
             return false
@@ -54,7 +53,6 @@ export const getConversation = async (user1_id, user2_id) => {
 
 export const saveMessage = async (conv_id, user_id, content) => {
     try {
-        console.log(conv_id)
         const result = await pool.query("insert into messages (sender_id, conversation_id, content) values ($1, $2, $3) returning id", [user_id, conv_id, content])
 
         if (result.rowCount > 0)

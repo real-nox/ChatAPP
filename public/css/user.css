@@ -112,9 +112,11 @@
 }
 
 .friendsReqList .listFriends {
-    padding: 50px 35px;
+    padding: 50px 5px;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     color: var(--text-color);
 }
@@ -125,9 +127,12 @@
     width: 100%;
     color: var(--text-color);
     height: max-content;
+    background-color: var(--chat-backgroundc);
 }
 
 .leftList .listFriendsDMs {
+    text-align: center;
+    color: var(--text-color);
     height: 75vh;
     background-color: var(--friends-list-backgroundc);
     overflow-y: auto;

@@ -94,7 +94,7 @@ document.addEventListener("click", async (ev) => {
 
             document.getElementById("listFriends").innerHTML = ""
 
-            let div = ""
+            let div = "<h3>Friend Requests</h3>"
 
             for (const friend of (listFriendsReq)) {
 
